@@ -1,0 +1,206 @@
+﻿@page
+@model ThemeParkDatabase.Pages.Employees.IndexModel
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<style>
+    tr td:hover {
+        cursor: pointer;
+    }
+</style>
+
+<h2>Employees</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table table-responsive table-hover" id="employees-table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Employee[0].FirstName)</th>
+            <th>@Html.DisplayNameFor(model => model.Employee[0].MiddleInitial)</th>
+            <th>@Html.DisplayNameFor(model => model.Employee[0].LastName)</th>
+            <th>@Html.DisplayNameFor(model => model.Employee[0].Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Employee[0].HireDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Employee[0].Salary)</th>
+            <th>@Html.DisplayNameFor(model => model.Employee[0].Department)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Employee)
+        {
+            var hireDate = String.Format("{0:MM/dd/yyyy}", item.HireDate);
+
+            <tr name="employee" data-id="@item.Id">
+                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                <td>@Html.DisplayFor(modelItem => item.MiddleInitial)</td>
+                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@hireDate</td>
+                <td>$@Html.DisplayFor(modelItem => item.Salary)</td>
+                <td>@Html.DisplayFor(modelItem => item.Department.Name)</td>
+            </tr>
+}
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>
+
+<div id="date-range">
+    Start: <input id="min" type="text" maxlength="8" size="8">
+    &nbsp;&nbsp;End: <input id="max" type="text" maxlength="8" size="8">
+</div>
+
+<div id="piechart" style="width: 900px; height: 500px;"></div>
+
+<div class="modal fade" id="employee-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="employee-details">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="close" style="float: right;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Details</h3>
+            </div>
+            <div class="modal-body">
+                <span><b>ID: </b></span>
+                <span id="employee-id"></span><br />
+                <span><b>First Name: </b></span>
+                <span id="first-name"></span> <br />
+                <span><b>Last Name: </b></span>
+                <span id="last-name">ret</span><br />
+                <span><b>Title: </b></span>
+                <span id="title"></span><br />
+                <span><b>Hire Date: </b></span>
+                <span id="hire-date">fds</span><br />
+                <span><b>Salary</b></span>
+                <span id="salary">sdf</span><br />
+                <span><b>Department ID: </b></span>
+                <span id="department-id">grr</span>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="edit-button" class="btn btn-default">Edit</a>
+                <a href="" id="delete-button" type="button" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            google.charts.load("current", { "packages": ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                $.ajax({
+                    url: "/Employees?handler=PieChart",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (json) {
+                        var data = google.visualization.arrayToDataTable(json);
+
+                        var options = {
+                            title: "Department Budget",
+                            is3D: true,
+                        };
+                        var chart = new google.visualization.PieChart(document.getElementById("piechart"));
+
+                        chart.draw(data, options);
+                    }
+                });
+            }
+
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var min = $('#min').datepicker("getDate");
+                    var max = $('#max').datepicker("getDate");
+                    var startDate = new Date(data[4]);
+
+                    if (min == null || max == null) {
+                        return true;
+                    }
+                    else {
+                        if (startDate >= min && startDate <= max) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            );
+
+            var employeesTable = $("#employees-table").DataTable({
+                "autoWidth": false,
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    var intVal = function (i) {
+                        if (typeof i === "string") {
+                            return i.replace(/[\$,]/g, "") * 1;
+                        }
+                        else {
+                            return i;
+                        }
+                    };
+
+                    var total = api.column(5, { search: "applied" }).data().reduce(function (a, b) {
+                        return intVal(a) + intVal(b)
+                    });
+
+                    var average = total / api.rows().count();
+
+                    $("#employees-table tfoot").html(
+                        "Total salaries: $" + total + "<br />" +
+                        "Average salaries: $" + average
+                    );
+                }
+            });
+
+            $('#min').datepicker({
+                yearRange: "1900:2018",
+                changeMonth: true,
+                changeYear: true
+            });
+            $('#max').datepicker({
+                yearRange: "1900:2018",
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $('#min, #max').change(function () {
+                employeesTable.draw();
+            });
+
+            $("#employee-modal").modal({
+                show: false,
+                backdrop: "static",
+                keyboard: false
+            });
+
+            $("tr[name='employee']").on("click", function () {
+                $.ajax({
+                    url: "/Employees?handler=EmployeeDetails&id=" + $(this).attr("data-id"),
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#employee-id").html(data[0].id);
+                        $("#first-name").html(data[0].firstName);
+                        $("#last-name").html(data[0].lastName);
+                        $("#title").html(data[0].title);
+                        $("#hire-date").html(data[0].hireDate);
+                        $("#salary").html("$" + data[0].salary);
+                        $("#department-id").html(data[0].departmentId);
+                        $("#edit-button").attr("href", "/Employees/Edit?id=" + data[0].id);
+                        $("#delete-button").attr("href", "/Employees/Delete?id=" + data[0].id);
+                    }
+                });
+
+                $("#employee-modal").modal("show");
+            });
+        });
+    </script>
+}

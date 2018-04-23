@@ -1,0 +1,64 @@
+﻿@page
+@model ThemeParkDatabase.Pages.Reports.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="dashboard-div">
+    <div id="chart-div"></div>
+    <div id="chart-range-filter"></div>
+</div>
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            google.charts.load("current", { packages: ["corechart", "controls"] });
+            google.charts.setOnLoadCallback(drawDashboard);
+
+            function drawDashboard() {
+                $.ajax({
+                    url: "Reports?handler=NumOfVisitorsGraph",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (json) {
+                        console.log(json);
+                        var dataArray = [
+                            ["Date", "Number of Visitors"]
+                        ];
+
+                        $.each(json, function (i, item) { 
+                            if (i != 0) {
+                                item[0] = new Date(item[0]);
+                                dataArray.push(item);
+                            }
+                        });
+
+                        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard-div'));
+
+                        var chartRangeFilter = new google.visualization.ControlWrapper({
+                            "controlType": "ChartRangeFilter",
+                            "containerId": "chart-range-filter",
+                            "options": {
+                                "filterColumnIndex": 0,
+                            }
+                        });
+
+                        var lineChart = new google.visualization.ChartWrapper({
+                            "chartType": "LineChart", // Don't know if this is the right name
+                            "containerId": "chart-div",
+                            "options": {
+                                "width": 500,
+                                "height": 500,
+                            }
+                        });
+
+                        dashboard.bind(chartRangeFilter, lineChart);
+
+                        dashboard.draw(dataArray);
+                    }
+                });
+            }
+        });
+    </script>
+}
