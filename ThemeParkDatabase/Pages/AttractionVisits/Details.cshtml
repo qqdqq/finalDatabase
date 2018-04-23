@@ -1,0 +1,31 @@
+@page
+@model ThemeParkDatabase.Pages.AttractionVisits.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AttractionVisit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AttractionVisit.Time)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AttractionVisit.Time)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AttractionVisit.Attraction)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AttractionVisit.Attraction.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.AttractionVisit.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
