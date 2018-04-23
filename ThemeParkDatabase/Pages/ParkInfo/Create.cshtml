@@ -1,0 +1,56 @@
+@page
+@model ThemeParkDatabase.Pages.ParkInfo.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>ParkInfomation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ParkInfomation.Name" class="control-label"></label>
+                <input asp-for="ParkInfomation.Name" class="form-control" />
+                <span asp-validation-for="ParkInfomation.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkInfomation.Country" class="control-label"></label>
+                <input asp-for="ParkInfomation.Country" class="form-control" />
+                <span asp-validation-for="ParkInfomation.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkInfomation.State" class="control-label"></label>
+                <input asp-for="ParkInfomation.State" class="form-control" />
+                <span asp-validation-for="ParkInfomation.State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkInfomation.City" class="control-label"></label>
+                <input asp-for="ParkInfomation.City" class="form-control" />
+                <span asp-validation-for="ParkInfomation.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkInfomation.PostalCode" class="control-label"></label>
+                <input asp-for="ParkInfomation.PostalCode" class="form-control" />
+                <span asp-validation-for="ParkInfomation.PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkInfomation.Address" class="control-label"></label>
+                <input asp-for="ParkInfomation.Address" class="form-control" />
+                <span asp-validation-for="ParkInfomation.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
