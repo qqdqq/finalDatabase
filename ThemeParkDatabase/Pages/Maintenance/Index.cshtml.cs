@@ -9,9 +9,12 @@ using ThemeParkDatabase.Models;
 using Newtonsoft.Json;
 using System.Text;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ThemeParkDatabase.Pages.Maintenance
 {
+
+    [Authorize(Roles = "Admin, Manager")]
     public class IndexModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;

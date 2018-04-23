@@ -4,13 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using ThemeParkDatabase.Models;
 
+
+
 namespace ThemeParkDatabase.Pages.Reports
 {
+
+    [Authorize(Roles = "Admin, Manager")]
     public class IndexModel : PageModel
     {
         private ThemeParkDatabaseContext _context;

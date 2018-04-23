@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ThemeParkDatabase.Pages.Account
 {
+
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
