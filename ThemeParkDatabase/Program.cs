@@ -7,14 +7,40 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using ThemeParkDatabase.Data;
 namespace ThemeParkDatabase
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            using(var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<ApplicationDbContext>();
+
+                var config = host.Services.GetRequiredService<IConfiguration>();
+                var testUserPW = "abcdeF123@4";
+                try
+                {
+                    DbInitializer.Initialize(services, testUserPW).Wait();
+                    string a;
+                }
+                catch(Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "Error occured while seeding the database.");
+                    throw ex;
+                }
+            }
+                
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

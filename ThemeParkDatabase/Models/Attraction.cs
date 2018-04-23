@@ -7,10 +7,12 @@ namespace ThemeParkDatabase.Models
     {
         public Attraction()
         {
+            
             AttractionVisit = new HashSet<AttractionVisit>();
             MaintenanceRequest = new HashSet<MaintenanceRequest>();
+            
         }
-
+        
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
