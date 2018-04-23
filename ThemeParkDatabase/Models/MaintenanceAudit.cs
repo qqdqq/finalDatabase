@@ -7,6 +7,7 @@ namespace ThemeParkDatabase.Models
 {
     public class MaintenanceAudit
     {
+        public int MaintenanceAuditId { get; set; }
         public int Id { get; set; }
         public string Description { get; set; }
         public DateTime DateRequested { get; set; }
@@ -14,6 +15,6 @@ namespace ThemeParkDatabase.Models
         public string CurrentStatus { get; set; }
         public decimal EstimatedCost { get; set; }
         public int AttractionId { get; set; }
-        public DateTime UpdatedOne { get; set; }
+        public DateTime UpdatedOn { get; set; }
     }
 }
