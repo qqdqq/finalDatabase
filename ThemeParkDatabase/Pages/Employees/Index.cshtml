@@ -5,11 +5,18 @@
     ViewData["Title"] = "Employees";
 }
 
+<style>
+    div#piechart {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 
-<h2>Employees</h2>
-<div class="content-container" style="display: flex;">
-    <div id="piechart" style="width: 900px; height: 500px;"></div>
+<h3>Employees</h3>
+<div class="content-container" style="display: flex; padding: 10px 0 10px 0;">
+    <div id="piechart" style="width: 500px; height: 400px;"></div>
 </div>
+
 <div class="content-container">
     <p>
         <a asp-page="Create">Create New</a>

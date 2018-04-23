@@ -49,8 +49,7 @@ namespace ThemeParkDatabase.Pages.Attractions
         public ActionResult OnGetAttractionPopularityGraph()
         {
             var attractions = _context.Attraction.Include(a => a.AttractionVisit).ToList();
-
-            
+         
             var dictionary = new Dictionary<DateTime, AttractionStruct>();
             DateTime lowest = attractions.First().AttractionVisit.First().Time;
             DateTime highest = lowest;

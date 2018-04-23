@@ -1,110 +1,117 @@
 ﻿@page
 @model ThemeParkDatabase.Pages.Reports.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Reports";
 }
 
-<div class="content-container">
+<h3>Daily Reports</h3>
 
+<div class="content-container" style="padding-bottom: 0;">
+
+    <div class="chart-container">
     <div id="dashboard-div">
-        <div id="chart-div"></div>
-        <div id="chart-range-filter"></div>
+        <div id="chart-div" style="width: 700; margin-left: auto; margin-right: auto;"></div>
+        <div id="chart-range-filter" style="height: 30px; width: 600px; margin-left: auto; margin-right: auto; margin-bottom: 30px; padding-top: -20px"></div>
+    </div>
+        </div>
     </div>
 
-    <p>
-        <a asp-page="Create">Create New</a>
-    </p>
-    <table class="table table-responsive table-hover table-condensed" id="reports-table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Number of Visitors</th>
-                <th>Rainout</th>
-                <th>Temperature</th>
-                <th>Inches of Precipitation</th>
-                <th>Date</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model._reports)
-            {
-                var date = String.Format("{0:MM/dd/yyyy}", item.Date);
+    <div class="content-container">
+        <p>
+            <a asp-page="Create">Create New</a>
+        </p>
+        <table class="table table-responsive table-hover table-condensed" id="reports-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Number of Visitors</th>
+                    <th>Rainout</th>
+                    <th>Temperature</th>
+                    <th>Inches of Precipitation</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model._reports)
+                {
+                    var date = String.Format("{0:MM/dd/yyyy}", item.Date);
 
-            <tr name="report" data-id="@item.Id">
-                <td>@Html.DisplayFor(r => item.Id)</td>
-                <td>@Html.DisplayFor(r => item.NumVisitors)</td>
-                <td>@Html.DisplayFor(r => item.Rainout)</td>
-                <td>@Html.DisplayFor(r => item.Temperature)</td>
-                <td>@Html.DisplayFor(r => item.InchesPrecipitation)</td>
-                <td>@date</td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-            }
-        </tbody>
-        <tfoot>
+                    <tr name="report" data-id="@item.Id">
+                        <td>@Html.DisplayFor(r => item.Id)</td>
+                        <td>@Html.DisplayFor(r => item.NumVisitors)</td>
+                        <td>@Html.DisplayFor(r => item.Rainout)</td>
+                        <td>@Html.DisplayFor(r => item.Temperature)</td>
+                        <td>@Html.DisplayFor(r => item.InchesPrecipitation)</td>
+                        <td>@date</td>
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
 
-        </tfoot>
-    </table>
-</div>
+            </tfoot>
+        </table>
+    </div>
 
-@section scripts
-    {
-    <script>
-        $(document).ready(function () {
+    @section scripts
+        {
+        <script>
+            $(document).ready(function () {
 
-            $("#reports-table").DataTable();
+                $("#reports-table").DataTable();
 
-            google.charts.load("current", { packages: ["corechart", "controls"] });
-            google.charts.setOnLoadCallback(drawDashboard);
+                google.charts.load("current", { packages: ["corechart", "controls"] });
+                google.charts.setOnLoadCallback(drawDashboard);
 
-            function drawDashboard() {
-                $.ajax({
-                    url: "Reports?handler=NumOfVisitorsGraph",
-                    type: "GET",
-                    dataType: "json",
-                    success: function (json) {
-                        console.log(json);
-                        var dataArray = [
-                            ["Date", "Number of Visitors"]
-                        ];
+                function drawDashboard() {
+                    $.ajax({
+                        url: "Reports?handler=NumOfVisitorsGraph",
+                        type: "GET",
+                        dataType: "json",
+                        success: function (json) {
+                            console.log(json);
+                            var dataArray = [
+                                ["Date", "Number of Visitors"]
+                            ];
 
-                        $.each(json, function (i, item) { 
-                            if (i != 0) {
-                                item[0] = new Date(item[0]);
-                                dataArray.push(item);
-                            }
-                        });
+                            $.each(json, function (i, item) {
+                                if (i != 0) {
+                                    item[0] = new Date(item[0]);
+                                    dataArray.push(item);
+                                }
+                            });
 
-                        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard-div'));
+                            var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard-div'));
 
-                        var chartRangeFilter = new google.visualization.ControlWrapper({
-                            "controlType": "ChartRangeFilter",
-                            "containerId": "chart-range-filter",
-                            "options": {
-                                "filterColumnIndex": 0,
-                            }
-                        });
+                            var chartRangeFilter = new google.visualization.ControlWrapper({
+                                "controlType": "ChartRangeFilter",
+                                "containerId": "chart-range-filter",
+                                "options": {
+                                    "filterColumnIndex": 0,
+                                    "height": 100,
+                                    "width": 100
+                                }
+                            });
 
-                        var lineChart = new google.visualization.ChartWrapper({
-                            "chartType": "LineChart", // Don't know if this is the right name
-                            "containerId": "chart-div",
-                            "options": {
-                                "width": 500,
-                                "height": 500,
-                            }
-                        });
+                            var lineChart = new google.visualization.ChartWrapper({
+                                "chartType": "LineChart", // Don't know if this is the right name
+                                "containerId": "chart-div",
+                                "options": {
+                                    "title": "Number of Visitors"
+                                }
+                            });
 
-                        dashboard.bind(chartRangeFilter, lineChart);
+                            dashboard.bind(chartRangeFilter, lineChart);
 
-                        dashboard.draw(dataArray);
-                    }
-                });
-            }
-        });
-    </script>
-}
+                            dashboard.draw(dataArray);
+                        }
+                    });
+                }
+            });
+        </script>
+    }

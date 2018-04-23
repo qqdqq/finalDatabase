@@ -2,14 +2,17 @@
 @model ThemeParkDatabase.Pages.Vendors.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Vendors";
 }
 
+
+<h3>Vendors</h3>
+
 <div class="content-container">
+    <div id="sales-goals-chart"></div>
+</div>
 
-<div id="sales-goals-chart"></div>
-
-<h2>Index</h2>
+<div class="content-container">
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -56,7 +59,7 @@
 }
     </tbody>
 </table>
-
+    </div>
     </div>
 
 @section scripts
