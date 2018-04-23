@@ -5,60 +5,62 @@
     ViewData["Title"] = "Employees";
 }
 
-<div class="content-container">
+
 <h2>Employees</h2>
+<div class="content-container" style="display: flex;">
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+</div>
+<div class="content-container">
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+    <table class="table table-responsive table-hover table-condensed" id="employees-table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Employee[0].FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.Employee[0].MiddleInitial)</th>
+                <th>@Html.DisplayNameFor(model => model.Employee[0].LastName)</th>
+                <th>@Html.DisplayNameFor(model => model.Employee[0].Title)</th>
+                <th>@Html.DisplayNameFor(model => model.Employee[0].HireDate)</th>
+                <th>@Html.DisplayNameFor(model => model.Employee[0].Salary)</th>
+                <th>@Html.DisplayNameFor(model => model.Employee[0].Department)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Employee)
+            {
+                var hireDate = String.Format("{0:MM/dd/yyyy}", item.HireDate);
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table table-responsive table-hover table-condensed" id="employees-table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Employee[0].FirstName)</th>
-            <th>@Html.DisplayNameFor(model => model.Employee[0].MiddleInitial)</th>
-            <th>@Html.DisplayNameFor(model => model.Employee[0].LastName)</th>
-            <th>@Html.DisplayNameFor(model => model.Employee[0].Title)</th>
-            <th>@Html.DisplayNameFor(model => model.Employee[0].HireDate)</th>
-            <th>@Html.DisplayNameFor(model => model.Employee[0].Salary)</th>
-            <th>@Html.DisplayNameFor(model => model.Employee[0].Department)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Employee)
-        {
-            var hireDate = String.Format("{0:MM/dd/yyyy}", item.HireDate);
+                <tr name="employee" data-id="@item.Id">
+                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MiddleInitial)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                    <td>@hireDate</td>
+                    <td>$@Html.DisplayFor(modelItem => item.Salary)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Department.Name)</td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
 
-        <tr name="employee" data-id="@item.Id">
-            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-            <td>@Html.DisplayFor(modelItem => item.MiddleInitial)</td>
-            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-            <td>@Html.DisplayFor(modelItem => item.Title)</td>
-            <td>@hireDate</td>
-            <td>$@Html.DisplayFor(modelItem => item.Salary)</td>
-            <td>@Html.DisplayFor(modelItem => item.Department.Name)</td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-    <tfoot>
+        </tfoot>
+    </table>
 
-    </tfoot>
-</table>
-
-<div id="date-range">
-    Start: <input id="min" type="text" maxlength="8" size="8">
-    &nbsp;&nbsp;End: <input id="max" type="text" maxlength="8" size="8">
+    <div id="date-range">
+        Start: <input id="min" type="text" maxlength="8" size="8">
+        &nbsp;&nbsp;End: <input id="max" type="text" maxlength="8" size="8">
+    </div>
 </div>
 
-<div id="piechart" style="width: 900px; height: 500px;"></div>
 
 
-    </div>
 @section scripts
 {
     <script>

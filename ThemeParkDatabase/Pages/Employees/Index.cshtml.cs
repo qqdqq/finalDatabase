@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ThemeParkDatabase.Pages.Employees
 {
-    [Authorize(Roles = "Admin, Manager")]
+    //[Authorize(Roles = "Admin, Manager")]
     public class IndexModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;

@@ -6,104 +6,58 @@
 }
 
 <style>
-    .table-container {
+    div#dual_x_div {
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>
 
-<div class="content-container">
-
 <h2>Maintenance</h2>
 
-<div id="dual_x_div" style="width: 900px; height: 500px;"></div>
-
-
-@*@{ 
-    int numOfRidesBroken = 0;
-    foreach (var request in Model.MaintenanceRequest)
-    {
-        if (request.DateResolved == null)
-        {
-            numOfRidesBroken++;
-        }
-    }
-    <p>@numOfRidesBroken</p>
-
-    foreach (var request in Model.MaintenanceRequest)
-    {
-        if (request.DateResolved == null)
-        {
-            <table class="table table-responsive table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th><b>@Html.DisplayFor(r => request.Attraction.Name)</b></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ 
-                        var dateRequested = String.Format("{0:MM/dd/yyyy}", request.DateRequested);
-                    }
-                    <tr>
-                        <td><b>Description</b></td>
-                        <td>@Html.DisplayFor(r => request.Description)</td>
-                    </tr>
-                    <tr>
-                        <td><b>Date Requested</b></td>
-                        <td>@dateRequested</td>
-                    </tr>
-                    <tr>
-                        <td><b>Current Status</b></td>
-                        <td>@Html.DisplayFor(r => request.CurrentStatus)</td>
-                    </tr>
-                    <tr>
-                        <td><b>Estimated Cost</b></td>
-                        <td>$@Html.DisplayFor(r => request.EstimatedCost)</td>
-                    </tr>
-                </tbody>
-            </table>
-        }
-    }
-}*@
-
-<div class="table-container">
-<table class="table table-hover table-responsive table-condensed" id="maintenance-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Attraction</th>
-            <th>Current Status</th>
-            <th>Date Requested</th>
-            <th>Estimated Cost</th>
-            <th>Date Resolved</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var request in Model.MaintenanceRequest)
-        {
-            var dateRequested = String.Format("{0:MM/dd/yyyy}", request.DateRequested);
-            var dateResolved = String.Format("{0:MM/dd/yyyy}", request.DateResolved);
-        <tr name="maintenance" data-id="@request.Id">
-            <td>@Html.DisplayFor(r => request.Id)</td>
-            <td>@Html.DisplayFor(r => request.Attraction.Name)</td>
-            <td>@Html.DisplayFor(r => request.CurrentStatus)</td>
-            <td>@dateRequested</td>
-            <td>$@Html.DisplayFor(r => request.EstimatedCost)</td>
-            <td>@dateResolved</td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@request.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@request.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@request.Id">Delete</a>
-            </td>
-        </tr>
-
-        }
-    </tbody>
-</table>
+<div class="content-container" style="display: flex;">
+    <div id="dual_x_div"></div>
 </div>
+
+
+<div class="content-container">
+    <table class="table table-hover table-responsive table-condensed" id="maintenance-table" style="width:100%;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Attraction</th>
+                <th>Current Status</th>
+                <th>Date Requested</th>
+                <th>Estimated Cost</th>
+                <th>Date Resolved</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model.MaintenanceRequest)
+            {
+                var dateRequested = String.Format("{0:MM/dd/yyyy}", request.DateRequested);
+                var dateResolved = String.Format("{0:MM/dd/yyyy}", request.DateResolved);
+                <tr name="maintenance" data-id="@request.Id">
+                    <td>@Html.DisplayFor(r => request.Id)</td>
+                    <td>@Html.DisplayFor(r => request.Attraction.Name)</td>
+                    <td>@Html.DisplayFor(r => request.CurrentStatus)</td>
+                    <td>@dateRequested</td>
+                    <td>$@Html.DisplayFor(r => request.EstimatedCost)</td>
+                    <td>@dateResolved</td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@request.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@request.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@request.Id">Delete</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
 </div>
 
 @section scripts
-{
+    {
     <script>
         $(document).ready(function () {
             google.charts.load("current", { packages: ["bar", "controls"] });
@@ -111,7 +65,7 @@
 
             function drawDashboard() {
                 $.ajax({
-                    url: "/Maintenance?handler=CostNumberGraph",
+                    url: "/Maintenance?handler=MaintenanceCostGraph",
                     type: "GET",
                     dataType: "json",
                     success: function (json) {
@@ -120,6 +74,7 @@
 
                         var options = {
                             width: 800,
+                            height: 300,
                             chart: {
                                 title: "Total Costs vs Number of Requests"
                             },
@@ -131,7 +86,7 @@
                             axes: {
                                 x: {
                                     "Total Cost": { label: "Total Cost" },
-                                    "Number of Requests": { side: "top", label: "Number of Requests" } 
+                                    "Number of Requests": { side: "top", label: "Number of Requests" }
                                 }
 
                             }
@@ -147,3 +102,50 @@
         });
     </script>
 }
+
+@*@{
+        int numOfRidesBroken = 0;
+        foreach (var request in Model.MaintenanceRequest)
+        {
+            if (request.DateResolved == null)
+            {
+                numOfRidesBroken++;
+            }
+        }
+        <p>@numOfRidesBroken</p>
+
+        foreach (var request in Model.MaintenanceRequest)
+        {
+            if (request.DateResolved == null)
+            {
+                <table class="table table-responsive table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th><b>@Html.DisplayFor(r => request.Attraction.Name)</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var dateRequested = String.Format("{0:MM/dd/yyyy}", request.DateRequested);
+                        }
+                        <tr>
+                            <td><b>Description</b></td>
+                            <td>@Html.DisplayFor(r => request.Description)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Date Requested</b></td>
+                            <td>@dateRequested</td>
+                        </tr>
+                        <tr>
+                            <td><b>Current Status</b></td>
+                            <td>@Html.DisplayFor(r => request.CurrentStatus)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Estimated Cost</b></td>
+                            <td>$@Html.DisplayFor(r => request.EstimatedCost)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+        }
+    }*@

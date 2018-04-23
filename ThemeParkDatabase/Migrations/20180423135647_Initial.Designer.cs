@@ -11,9 +11,10 @@ using ThemeParkDatabase.Models;
 namespace ThemeParkDatabase.Migrations
 {
     [DbContext(typeof(ThemeParkDatabaseContext))]
-    partial class ThemeParkDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20180423135647_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -441,8 +442,7 @@ namespace ThemeParkDatabase.Migrations
                     b.HasOne("ThemeParkDatabase.Models.Attraction", "Attraction")
                         .WithMany("AttractionVisit")
                         .HasForeignKey("AttractionId")
-                        .HasConstraintName("FK_AttractionVisit_Attraction")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasConstraintName("FK_AttractionVisit_Attraction");
                 });
 
             modelBuilder.Entity("ThemeParkDatabase.Models.DeletionRequest", b =>
@@ -479,8 +479,7 @@ namespace ThemeParkDatabase.Migrations
                     b.HasOne("ThemeParkDatabase.Models.Visitor", "Visitor")
                         .WithMany("Ticket")
                         .HasForeignKey("VisitorId")
-                        .HasConstraintName("FK_Ticket_Visitor")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasConstraintName("FK_Ticket_Visitor");
                 });
 
             modelBuilder.Entity("ThemeParkDatabase.Models.Vendor", b =>
@@ -501,8 +500,7 @@ namespace ThemeParkDatabase.Migrations
                     b.HasOne("ThemeParkDatabase.Models.Vendor", "Vendor")
                         .WithMany("VendorSalesReport")
                         .HasForeignKey("VendorId")
-                        .HasConstraintName("FK_VendorSalesReport_Vendor")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasConstraintName("FK_VendorSalesReport_Vendor");
                 });
 #pragma warning restore 612, 618
         }

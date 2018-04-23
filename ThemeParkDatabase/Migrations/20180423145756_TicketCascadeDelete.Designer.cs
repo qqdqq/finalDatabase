@@ -11,8 +11,8 @@ using ThemeParkDatabase.Models;
 namespace ThemeParkDatabase.Migrations
 {
     [DbContext(typeof(ThemeParkDatabaseContext))]
-    [Migration("20180423004615_Initial")]
-    partial class Initial
+    [Migration("20180423145756_TicketCascadeDelete")]
+    partial class TicketCascadeDelete
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -442,7 +442,8 @@ namespace ThemeParkDatabase.Migrations
                     b.HasOne("ThemeParkDatabase.Models.Attraction", "Attraction")
                         .WithMany("AttractionVisit")
                         .HasForeignKey("AttractionId")
-                        .HasConstraintName("FK_AttractionVisit_Attraction");
+                        .HasConstraintName("FK_AttractionVisit_Attraction")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ThemeParkDatabase.Models.DeletionRequest", b =>
@@ -479,7 +480,8 @@ namespace ThemeParkDatabase.Migrations
                     b.HasOne("ThemeParkDatabase.Models.Visitor", "Visitor")
                         .WithMany("Ticket")
                         .HasForeignKey("VisitorId")
-                        .HasConstraintName("FK_Ticket_Visitor");
+                        .HasConstraintName("FK_Ticket_Visitor")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ThemeParkDatabase.Models.Vendor", b =>
@@ -500,7 +502,8 @@ namespace ThemeParkDatabase.Migrations
                     b.HasOne("ThemeParkDatabase.Models.Vendor", "Vendor")
                         .WithMany("VendorSalesReport")
                         .HasForeignKey("VendorId")
-                        .HasConstraintName("FK_VendorSalesReport_Vendor");
+                        .HasConstraintName("FK_VendorSalesReport_Vendor")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

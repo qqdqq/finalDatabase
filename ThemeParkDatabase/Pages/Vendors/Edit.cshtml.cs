@@ -46,27 +46,33 @@ namespace ThemeParkDatabase.Pages.Vendors
         {
             if (!ModelState.IsValid)
             {
+                System.Diagnostics.Debug.WriteLine("!ModelState.IsValid");
                 return Page();
             }
 
+            System.Diagnostics.Debug.WriteLine("EntityState.Modified");
             _context.Attach(Vendor).State = EntityState.Modified;
 
             try
             {
+                System.Diagnostics.Debug.WriteLine("SaveChangesAsync");
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
-            {
+            {;
                 if (!VendorExists(Vendor.Id))
                 {
+                    System.Diagnostics.Debug.WriteLine("NotFound");
                     return NotFound();
                 }
                 else
                 {
+                    System.Diagnostics.Debug.WriteLine("Throw");
                     throw;
                 }
             }
 
+            System.Diagnostics.Debug.WriteLine("Redirect");
             return RedirectToPage("./Index");
         }
 

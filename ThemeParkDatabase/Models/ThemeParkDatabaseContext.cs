@@ -67,7 +67,7 @@ namespace ThemeParkDatabase.Models
                 entity.HasOne(d => d.Attraction)
                     .WithMany(p => p.AttractionVisit)
                     .HasForeignKey(d => d.AttractionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_AttractionVisit_Attraction");
             });
 
@@ -179,7 +179,7 @@ namespace ThemeParkDatabase.Models
                 entity.HasOne(d => d.Visitor)
                     .WithMany(p => p.Ticket)
                     .HasForeignKey(d => d.VisitorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Ticket_Visitor");
             });
 
@@ -216,7 +216,7 @@ namespace ThemeParkDatabase.Models
                 entity.HasOne(d => d.Vendor)
                     .WithMany(p => p.VendorSalesReport)
                     .HasForeignKey(d => d.VendorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_VendorSalesReport_Vendor");
             });
 
