@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ThemeParkDatabase.Pages
 {
     //comment work plz
-    [Authorize(Roles = "Admin, Manager, Employee")]
+    [Authorize(Roles = "Admin, Employee, Manager")]
     public class IndexModel : PageModel
     {
         public void OnGet()
