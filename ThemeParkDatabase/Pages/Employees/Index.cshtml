@@ -5,18 +5,13 @@
     ViewData["Title"] = "Employees";
 }
 
-<style>
-    tr td:hover {
-        cursor: pointer;
-    }
-</style>
-
+<div class="content-container">
 <h2>Employees</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table table-responsive table-hover" id="employees-table">
+<table class="table table-responsive table-hover table-condensed" id="employees-table">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Employee[0].FirstName)</th>
@@ -26,6 +21,7 @@
             <th>@Html.DisplayNameFor(model => model.Employee[0].HireDate)</th>
             <th>@Html.DisplayNameFor(model => model.Employee[0].Salary)</th>
             <th>@Html.DisplayNameFor(model => model.Employee[0].Department)</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -33,15 +29,20 @@
         {
             var hireDate = String.Format("{0:MM/dd/yyyy}", item.HireDate);
 
-            <tr name="employee" data-id="@item.Id">
-                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                <td>@Html.DisplayFor(modelItem => item.MiddleInitial)</td>
-                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                <td>@hireDate</td>
-                <td>$@Html.DisplayFor(modelItem => item.Salary)</td>
-                <td>@Html.DisplayFor(modelItem => item.Department.Name)</td>
-            </tr>
+        <tr name="employee" data-id="@item.Id">
+            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+            <td>@Html.DisplayFor(modelItem => item.MiddleInitial)</td>
+            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+            <td>@hireDate</td>
+            <td>$@Html.DisplayFor(modelItem => item.Salary)</td>
+            <td>@Html.DisplayFor(modelItem => item.Department.Name)</td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
 }
     </tbody>
     <tfoot>
@@ -56,40 +57,8 @@
 
 <div id="piechart" style="width: 900px; height: 500px;"></div>
 
-<div class="modal fade" id="employee-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" id="employee-details">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal" aria-label="close" style="float: right;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h3 class="modal-title">Details</h3>
-            </div>
-            <div class="modal-body">
-                <span><b>ID: </b></span>
-                <span id="employee-id"></span><br />
-                <span><b>First Name: </b></span>
-                <span id="first-name"></span> <br />
-                <span><b>Last Name: </b></span>
-                <span id="last-name">ret</span><br />
-                <span><b>Title: </b></span>
-                <span id="title"></span><br />
-                <span><b>Hire Date: </b></span>
-                <span id="hire-date">fds</span><br />
-                <span><b>Salary</b></span>
-                <span id="salary">sdf</span><br />
-                <span><b>Department ID: </b></span>
-                <span id="department-id">grr</span>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="edit-button" class="btn btn-default">Edit</a>
-                <a href="" id="delete-button" type="button" class="btn btn-danger">Delete</a>
-            </div>
-        </div>
+
     </div>
-</div>
-
-
 @section scripts
 {
     <script>
@@ -173,33 +142,6 @@
 
             $('#min, #max').change(function () {
                 employeesTable.draw();
-            });
-
-            $("#employee-modal").modal({
-                show: false,
-                backdrop: "static",
-                keyboard: false
-            });
-
-            $("tr[name='employee']").on("click", function () {
-                $.ajax({
-                    url: "/Employees?handler=EmployeeDetails&id=" + $(this).attr("data-id"),
-                    type: "GET",
-                    dataType: "json",
-                    success: function (data) {
-                        $("#employee-id").html(data[0].id);
-                        $("#first-name").html(data[0].firstName);
-                        $("#last-name").html(data[0].lastName);
-                        $("#title").html(data[0].title);
-                        $("#hire-date").html(data[0].hireDate);
-                        $("#salary").html("$" + data[0].salary);
-                        $("#department-id").html(data[0].departmentId);
-                        $("#edit-button").attr("href", "/Employees/Edit?id=" + data[0].id);
-                        $("#delete-button").attr("href", "/Employees/Delete?id=" + data[0].id);
-                    }
-                });
-
-                $("#employee-modal").modal("show");
             });
         });
     </script>

@@ -27,6 +27,12 @@ namespace ThemeParkDatabase.Pages.Reports
             _reports = _context.DailyParkReport.ToList();
         }
 
+        [HttpGet("ReportDetails")]
+        public JsonResult OnGetReportDetails(int id)
+        {
+            return new JsonResult(_context.DailyParkReport.Where(r => r.Id == id));
+        }
+
         public ActionResult OnGetNumOfVisitorsGraph()
         {
             var reports = _context.DailyParkReport.ToList();

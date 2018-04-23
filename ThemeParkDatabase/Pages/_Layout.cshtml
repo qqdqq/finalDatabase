@@ -1,4 +1,158 @@
-﻿<!DOCTYPE html>
+﻿<style>
+    body {
+        padding: 0 !important;
+    }
+
+    thead {
+        color: #fff;
+        background: linear-gradient(to right, #31bfab, #4ea2e0);
+        border-bottom: 9px solid rgba(255, 255, 255, 0.5);
+    }
+
+    tr:nth-child(even) {
+        background-color: #f7f7f7;
+    }
+
+    tr td:hover {
+        cursor: pointer;
+    }
+
+    .page-wrapper {
+        height: 100vh;
+    }
+
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 50px;
+        padding: 0 65px 0 0;
+        background: linear-gradient(to left, #31bfab, #4ea2e0) !important;
+        border-bottom: 3px solid rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 50px;
+        padding: 0 65px 0 0;
+        background: linear-gradient(to right, #3790d2, #1db19c);
+        border-bottom: 4px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .topbar a, .topbar a:hover {
+        font-size: 2.0em;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .topbar-brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 250px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    #logout-button {
+        font-size: 1.1em;
+        background: rgba(0, 0, 0, 0);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        transition: 0.08s;
+        box-shadow: none !important;
+    }
+
+    #logout-button:hover, #logout-button:focus, #logout-button:active {
+        background: rgba(255, 255, 255, 0.25);
+        outline: none;
+        box-shadow: none;
+        transition: 0.08s;
+    }
+
+    .body-wrapper {
+        display: flex;
+        align-content: stretch;
+        min-height: 100%;
+    }
+
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        min-width: 250px;
+        max-width: 250px;
+        border-right: 3px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .components-header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 63px;
+        padding: 0px 0 0 20px;
+        font-weight: 500;
+        font-size: 18px;
+        color: rgba(0, 0, 0, 0.575);
+        text-transform: uppercase;
+    }
+
+    .components a {
+        display: block;
+        padding: 12px 0 12px 27px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.575);
+        transition: 0.1s;
+    }
+
+    .components a:hover {
+        text-decoration: none;
+        color: #fff;
+        background: #4ea2e0;
+        transition: 0.1s;
+    }
+
+    .content-wrapper {
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        width: 100%;
+        padding: 25px 40px 25px 40px;
+        background: #f4f5f7;
+    }
+
+    .content-container {
+        padding: 30px 50px 30px 50px;
+        margin: 30px;
+        background: #fff;
+        border: 3px solid rgba(0, 0, 0, 0.1);
+        border-radius: 3px 3px;
+    }
+
+    li .glyphicon {
+        font-size: 14px;
+        padding: 0 15px 0 0;
+    }
+
+    .components-divider-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 2px;
+    }
+
+    .components-divider {
+        height: 100%;
+        width: 190px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+</style>
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,7 +160,7 @@
     <title>@ViewData["Title"] - ThemeParkDatabase</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-paper.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -19,36 +173,34 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-page="/Index" class="navbar-brand">ThemeParkDatabase</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-page="/Maintenance/Index">Maintenance</a></li>
-                    <li><a asp-page="/Employees/Index">Employees</a></li>
-                    <li><a asp-page="/Reports/Index">Reports</a></li>
-                    <li><a asp-page="/Attractions/Index">Attractions</a></li>
-                    <li><a asp-page="/Visitors/Index">Visitors</a></li>
-                    <li><a asp-page="/Vendors/Index">Vendors</a></li>
+    <div class="page-wrapper">
+        <nav class="topbar navbar-inverse">
+            <div class="topbar-brand"><a asp-page="/Index">theme<b>Park</b></a></div>
+            <button class="btn btn-primary" id="logout-button">Logout</button>
+        </nav>
+        <div class="body-wrapper">
+            <nav class="sidebar">
+
+                <div class="components-header">Navigation</div>
+                <div class="components-divider-wrapper">
+                    <div class="components-divider"></div>
+                </div>
+                <ul class="components list-unstyled">
+                    <li><a asp-page="/Maintenance/Index"><i class="glyphicon glyphicon-apple"></i>Maintenance</a></li>
+                    <li><a asp-page="/Employees/Index"><i class="glyphicon glyphicon-book"></i>Employees</a></li>
+                    <li><a asp-page="/Reports/Index"><i class="glyphicon glyphicon-plane"></i>Reports</a></li>
+                    <li><a asp-page="/Attractions/Index"><i class="glyphicon glyphicon-piggy-bank"></i>Attractions</a></li>
+                    <li><a asp-page="/Visitors/Index"><i class="glyphicon glyphicon-star"></i>Visitors</a></li>
+                    <li><a asp-page="/Vendors/Index"><i class="glyphicon glyphicon-pencil"></i>Vendors</a></li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
+                <div class="components-divider-wrapper">
+                    <div class="components-divider"></div>
+                </div>
+            </nav>
+            <div class="content-wrapper">
+                @RenderBody()
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - ThemeParkDatabase</p>
-        </footer>
     </div>
 
     <environment include="Development">
@@ -80,3 +232,35 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+@*<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-page="/Index" class="navbar-brand">ThemeParkDatabase</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-page="/Maintenance/Index">Maintenance</a></li>
+                    <li><a asp-page="/Employees/Index">Employees</a></li>
+                    <li><a asp-page="/Reports/Index">Reports</a></li>
+                    <li><a asp-page="/Attractions/Index">Attractions</a></li>
+                    <li><a asp-page="/Visitors/Index">Visitors</a></li>
+                    <li><a asp-page="/Vendors/Index">Vendors</a></li>
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+
+        <hr />
+        <footer>
+            <p>&copy; 2017 - ThemeParkDatabase</p>
+        </footer>
+    </div>*@

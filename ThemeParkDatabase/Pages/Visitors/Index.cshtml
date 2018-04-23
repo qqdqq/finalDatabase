@@ -5,9 +5,11 @@
     ViewData["Title"] = "Index";
 }
 
+<div class="content-container">
+
 <div id="ticket-popularity-pie" style="width: 900px; height: 300px;"></div>
 
-@*<h2>Index</h2>
+<h2>Index</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -21,6 +23,7 @@
             <td>Date of Birth</td>
             <td>Email</td>
             <td>Phone</td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
@@ -32,10 +35,17 @@
             <td>@Html.DisplayFor(v => item.DateOfBirth)</td>
             <td>@Html.DisplayFor(v => item.Email)</td>
             <td>@Html.DisplayFor(v => item.PhoneNumber)</td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
         </tr>
     }
     </tbody>
-</table>*@
+</table>
+
+    </div>
 
 @section scripts
 {
@@ -64,11 +74,6 @@
                 });
 
             }
-
-
-
-
-
 
             $("#visitors-table").DataTable();
         });

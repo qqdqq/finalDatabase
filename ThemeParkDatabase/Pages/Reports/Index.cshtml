@@ -4,15 +4,61 @@
     ViewData["Title"] = "Index";
 }
 
-<div id="dashboard-div">
-    <div id="chart-div"></div>
-    <div id="chart-range-filter"></div>
+<div class="content-container">
+
+    <div id="dashboard-div">
+        <div id="chart-div"></div>
+        <div id="chart-range-filter"></div>
+    </div>
+
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+    <table class="table table-responsive table-hover table-condensed" id="reports-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Number of Visitors</th>
+                <th>Rainout</th>
+                <th>Temperature</th>
+                <th>Inches of Precipitation</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model._reports)
+            {
+                var date = String.Format("{0:MM/dd/yyyy}", item.Date);
+
+            <tr name="report" data-id="@item.Id">
+                <td>@Html.DisplayFor(r => item.Id)</td>
+                <td>@Html.DisplayFor(r => item.NumVisitors)</td>
+                <td>@Html.DisplayFor(r => item.Rainout)</td>
+                <td>@Html.DisplayFor(r => item.Temperature)</td>
+                <td>@Html.DisplayFor(r => item.InchesPrecipitation)</td>
+                <td>@date</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
 </div>
 
 @section scripts
     {
     <script>
         $(document).ready(function () {
+
+            $("#reports-table").DataTable();
+
             google.charts.load("current", { packages: ["corechart", "controls"] });
             google.charts.setOnLoadCallback(drawDashboard);
 
