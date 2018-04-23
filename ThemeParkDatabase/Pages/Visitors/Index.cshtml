@@ -2,15 +2,20 @@
 @model ThemeParkDatabase.Pages.Visitors.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Visitors";
 }
+
+
+
+<h3>Visitors</h3>
 
 <div class="content-container">
 
-<div id="ticket-popularity-pie" style="width: 900px; height: 300px;"></div>
+<div id="ticket-popularity-pie" style="width: 900px; position: relative; left: 55px; height: 300px; margin-left: auto; margin-right: auto;"></div>
 
-<h2>Index</h2>
+</div>
 
+<div class="content-container">
 <p>
     <a asp-page="Create">Create New</a>
 </p>
@@ -46,6 +51,7 @@
 </table>
 
     </div>
+</div>
 
 @section scripts
 {
