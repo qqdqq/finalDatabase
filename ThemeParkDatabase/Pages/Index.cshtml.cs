@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ThemeParkDatabase.Pages
 {
+    //comment work plz
+
     public class IndexModel : PageModel
     {
         public void OnGet()
