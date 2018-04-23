@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.DependencyInjection;
+using ThemeParkDatabase.Services;
+using ThemeParkDatabase.Models;
 using Microsoft.Extensions.Logging;
 using ThemeParkDatabase.Data;
-using ThemeParkDatabase.Services;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace ThemeParkDatabase.Pages.Account
 {
@@ -16,17 +20,20 @@ namespace ThemeParkDatabase.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IServiceProvider _service;
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            IServiceProvider service,
             ILogger<LoginModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _service = service;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -36,6 +43,7 @@ namespace ThemeParkDatabase.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        
         public class InputModel
         {
             [Required]
@@ -53,20 +61,45 @@ namespace ThemeParkDatabase.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [StringLength(20, ErrorMessage = "Account Type canot be longer than 20 characters")]
+            [Display(Name = "Account Type")]
+            public string AccountType { get; set; }
+            
+
         }
 
-        public void OnGet(string returnUrl = null)
+        public void OnGet(string role, string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            
         }
+
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+           
+           
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+                var roleManager = _service.GetRequiredService<RoleManager<IdentityRole>>();
+                var roleExists = await roleManager.RoleExistsAsync(Input.AccountType);
+                if( !roleExists)
+                {
+                    _logger.LogInformation("Role doesn't exist");
+                    return Page();
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, Input.AccountType);
+                }
+                
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

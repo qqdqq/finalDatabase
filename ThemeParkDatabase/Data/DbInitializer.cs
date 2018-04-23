@@ -66,8 +66,7 @@ namespace ThemeParkDatabase.Data
 
         public static void InitializeDb(ThemeParkDatabaseContext context, ApplicationDbContext context_t, string adminId)
         {
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+ 
             if (context.Location.Any()) { return; }
 
             var pinfo = new ParkInfomation[]

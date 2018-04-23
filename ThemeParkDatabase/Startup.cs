@@ -20,14 +20,32 @@ namespace ThemeParkDatabase
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,
+            IHostingEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
-
+        public IHostingEnvironment Environment { get; }
         // This method gets called by the runtime. Use this method to add services to the container.
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string[] roleNames = { "Admin", "Manager", "Employee" };
+            IdentityResult RR;
+            foreach(var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    RR = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+        }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -37,11 +55,29 @@ namespace ThemeParkDatabase
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+                    options.AddPolicy("Manager", policy => policy.RequireRole("Manager"));
+                    options.AddPolicy("Employee", policy => policy.RequireRole("Employee"));
+                });
+
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
+                    
+                    options.Conventions.AllowAnonymousToPage("/Account/Login");
+                    options.Conventions.AllowAnonymousToPage("/Accounts/Register");
+                    options.Conventions.AllowAnonymousToPage("/Accounts/ResetPassword");
+                    options.Conventions.AllowAnonymousToPage("/Accounts/ResetPasswordConfirmation");
+                    /*
+                    options.Conventions.AuthorizePage("/Index");
+                    options.Conventions.AuthorizeFolder("/Employees");
+                    options.Conventions.AuthorizeFolder("/Visitors");
+                    options.Conventions.AuthorizeFolder("/Maintenance");
                     options.Conventions.AuthorizeFolder("/Account/Manage");
                     options.Conventions.AuthorizePage("/Account/Logout");
+                    */
                 });
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=ThemeParkDatabase;Trusted_Connection=True;ConnectRetryCount=0";

@@ -11,8 +11,8 @@ namespace ThemeParkDatabase.Authorization
         public static OperationAuthorizationRequirement Create =
             new OperationAuthorizationRequirement { Name = Constants.CreateOperationName };
 
-        public static OperationAuthorizationRequirement View =
-            new OperationAuthorizationRequirement { Name = Constants.ViewOperationName };
+        public static OperationAuthorizationRequirement Details =
+            new OperationAuthorizationRequirement { Name = Constants.DetailsOperationName };
 
         public static OperationAuthorizationRequirement Edit =
            new OperationAuthorizationRequirement { Name = Constants.EditOperationName };
@@ -31,7 +31,7 @@ namespace ThemeParkDatabase.Authorization
     public class Constants
     {
         public static readonly string CreateOperationName = "Create";
-        public static readonly string ViewOperationName = "View";
+        public static readonly string DetailsOperationName = "View";
         public static readonly string EditOperationName = "Edit";
         public static readonly string DeleteOperationName = "Delete";
         public static readonly string ApproveOperationName = "Approve";
@@ -39,6 +39,7 @@ namespace ThemeParkDatabase.Authorization
 
         public static readonly string AdministratorsRole = "Admin";
         public static readonly string ManagerRole = "Managers";
+        public static readonly string EmployeeRole = "Employee";
         
     }
 }
