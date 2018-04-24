@@ -186,31 +186,54 @@
             @await Html.PartialAsync("_LoginPartial")
             @*<button class="btn btn-primary" id="logout-button">Logout</button>*@
         </nav>
-        <div class="body-wrapper">
-            <nav class="sidebar">
 
-                <div class="components-header">Navigation</div>
-                <div class="components-divider-wrapper">
-                    <div class="components-divider"></div>
-                </div>
-                <ul class="components list-unstyled">
-                    <li><a asp-page="/Maintenance/Index"><i class="glyphicon glyphicon-apple"></i>Maintenance</a></li>
-                    <li><a asp-page="/Employees/Index"><i class="glyphicon glyphicon-book"></i>Employees</a></li>
-                    <li><a asp-page="/Reports/Index"><i class="glyphicon glyphicon-plane"></i>Reports</a></li>
-                    <li><a asp-page="/Attractions/Index"><i class="glyphicon glyphicon-piggy-bank"></i>Attractions</a></li>
-                    <li><a asp-page="/Visitors/Index"><i class="glyphicon glyphicon-star"></i>Visitors</a></li>
-                    <li><a asp-page="/Vendors/Index"><i class="glyphicon glyphicon-pencil"></i>Vendors</a></li>
-                </ul>
-                <div class="components-divider-wrapper">
-                    <div class="components-divider"></div>
-                </div>
-            </nav>
-            <div class="content-wrapper">
-                @RenderBody()
+
+
+        <div class="body-wrapper">
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+        <nav class="sidebar">
+
+            <div class="components-header">Navigation</div>
+            <div class="components-divider-wrapper">
+                <div class="components-divider"></div>
             </div>
+            <ul class="components list-unstyled">
+
+
+           
+
+
+                
+                <li><a asp-page="/Maintenance/Index"><i class="glyphicon glyphicon-apple"></i>Maintenance</a></li>
+                <li><a asp-page="/Employees/Index"><i class="glyphicon glyphicon-book"></i>Employees</a></li>
+                <li><a asp-page="/Reports/Index"><i class="glyphicon glyphicon-plane"></i>Reports</a></li>
+
+
+                <li><a asp-page="/Attractions/Index"><i class="glyphicon glyphicon-piggy-bank"></i>Attractions</a></li>
+                <li><a asp-page="/Visitors/Index"><i class="glyphicon glyphicon-star"></i>Visitors</a></li>
+                <li><a asp-page="/Vendors/Index"><i class="glyphicon glyphicon-pencil"></i>Vendors</a></li>
+
+
+            </ul>
+            <div class="components-divider-wrapper">
+                <div class="components-divider"></div>
+            </div>
+        </nav>
+
+            }
+
+        <div class="content-wrapper">
+            @RenderBody()
         </div>
+        </div>
+
+        
+
     </div>
 
+    
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
