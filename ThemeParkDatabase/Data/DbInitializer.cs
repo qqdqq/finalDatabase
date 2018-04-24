@@ -66,6 +66,7 @@ namespace ThemeParkDatabase.Data
 
         public static void InitializeDb(ThemeParkDatabaseContext context, ApplicationDbContext context_t, string adminId)
         {
+            
             /*
  
             if (context.Location.Any()) { return; }

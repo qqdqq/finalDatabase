@@ -58,7 +58,7 @@ namespace ThemeParkDatabase
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //Connects to the project to the Theme Park Database
-            string connection = @"Server=(localdb)\mssqllocaldb;Database=ThemeParkDatabase;Trusted_Connection=True;ConnectRetryCount=0";
+            string connection = @"Server=(localdb)\mssqllocaldb;Database=ThemeParkDatabase2;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<ThemeParkDatabaseContext>(b => b.UseSqlServer(connection));
 
 
