@@ -17,7 +17,7 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-condensed table-hover table-responsive" id="vendors-table">
     <thead>
         <tr>
             <th>
@@ -60,12 +60,13 @@
     </tbody>
 </table>
     </div>
-    </div>
 
 @section scripts
 {
     <script>
         $(document).ready(function () {
+            $("#vendors-table").DataTable();
+
             google.charts.load('current', { 'packages': ['corechart'] });
             google.charts.setOnLoadCallback(drawChart);
 

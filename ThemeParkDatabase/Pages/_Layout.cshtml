@@ -183,7 +183,8 @@
     <div class="page-wrapper">
         <nav class="topbar navbar-inverse">
             <div class="topbar-brand"><a asp-page="/Index">theme<b>Park</b></a></div>
-            <button class="btn btn-primary" id="logout-button">Logout</button>
+            @await Html.PartialAsync("_LoginPartial")
+            @*<button class="btn btn-primary" id="logout-button">Logout</button>*@
         </nav>
         <div class="body-wrapper">
             <nav class="sidebar">

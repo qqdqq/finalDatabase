@@ -40,7 +40,7 @@ namespace ThemeParkDatabase.Pages.Reports
 
         public ActionResult OnGetNumOfVisitorsGraph()
         {
-            var reports = _context.DailyParkReport.ToList();
+            var reports = _context.DailyParkReport.OrderBy(r => r.Date).ToList();
 
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);

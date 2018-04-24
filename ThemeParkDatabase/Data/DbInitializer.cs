@@ -66,6 +66,7 @@ namespace ThemeParkDatabase.Data
 
         public static void InitializeDb(ThemeParkDatabaseContext context, ApplicationDbContext context_t, string adminId)
         {
+            /*
  
             if (context.Location.Any()) { return; }
 
@@ -91,7 +92,7 @@ namespace ThemeParkDatabase.Data
                     Date = DateTime.Parse("2009-10-03") ,
                     Rainout = false,
                     Temperature = 70.0,
-                    InchesPrecipitation = 0.0
+                    InchesPercipitation = 0.0
                 }
 };
             foreach (WeatherAudit w in weather) { context.WeatherAudit.Add(w); }
@@ -593,7 +594,7 @@ namespace ThemeParkDatabase.Data
 
 
 
-
+    */
            
             
 

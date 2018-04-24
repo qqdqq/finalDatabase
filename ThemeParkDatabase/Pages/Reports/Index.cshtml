@@ -30,7 +30,7 @@
                     <th>Number of Visitors</th>
                     <th>Rainout</th>
                     <th>Temperature</th>
-                    <th>Inches of Precipitation</th>
+                    <th>Inches of Percipitation</th>
                     <th>Date</th>
                     <th></th>
                 </tr>
@@ -45,7 +45,7 @@
                         <td>@Html.DisplayFor(r => item.NumVisitors)</td>
                         <td>@Html.DisplayFor(r => item.Rainout)</td>
                         <td>@Html.DisplayFor(r => item.Temperature)</td>
-                        <td>@Html.DisplayFor(r => item.InchesPrecipitation)</td>
+                        <td>@Html.DisplayFor(r => item.InchesPercipitation)</td>
                         <td>@date</td>
                         <td>
                             <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

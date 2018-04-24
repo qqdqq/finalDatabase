@@ -29,7 +29,7 @@ namespace ThemeParkDatabase.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    InchesPrecipitation = table.Column<double>(nullable: false),
+                    InchesPercipitation = table.Column<double>(nullable: false),
                     NumVisitors = table.Column<int>(nullable: false),
                     Rainout = table.Column<bool>(nullable: false),
                     Temperature = table.Column<double>(nullable: false)
@@ -78,7 +78,7 @@ namespace ThemeParkDatabase.Migrations
                     DateRequested = table.Column<DateTime>(nullable: false),
                     DateResolved = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    EstimatedCost = table.Column<decimal>(nullable: false),
+                    EstimatedCost = table.Column<int>(nullable: false),
                     UpdatedOne = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -112,7 +112,7 @@ namespace ThemeParkDatabase.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Price = table.Column<decimal>(nullable: false)
+                    Price = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,7 +157,7 @@ namespace ThemeParkDatabase.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(nullable: false),
-                    InchesPrecipitation = table.Column<double>(nullable: false),
+                    InchesPercipitation = table.Column<double>(nullable: false),
                     Rainout = table.Column<bool>(nullable: false),
                     Temperature = table.Column<double>(nullable: false)
                 },
@@ -177,7 +177,7 @@ namespace ThemeParkDatabase.Migrations
                     HireDate = table.Column<DateTime>(type: "date", nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     MiddleInitial = table.Column<string>(type: "nchar(1)", nullable: true),
-                    Salary = table.Column<decimal>(nullable: false),
+                    Salary = table.Column<int>(nullable: false),
                     Title = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -328,7 +328,7 @@ namespace ThemeParkDatabase.Migrations
                     DateRequested = table.Column<DateTime>(type: "datetime", nullable: false),
                     DateResolved = table.Column<DateTime>(type: "datetime", nullable: true),
                     Description = table.Column<string>(nullable: false),
-                    EstimatedCost = table.Column<decimal>(nullable: false)
+                    EstimatedCost = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -348,8 +348,8 @@ namespace ThemeParkDatabase.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    SalesGoal = table.Column<decimal>(nullable: false),
-                    TotalSales = table.Column<decimal>(nullable: false),
+                    SalesGoal = table.Column<int>(nullable: false),
+                    TotalSales = table.Column<int>(nullable: false),
                     VendorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

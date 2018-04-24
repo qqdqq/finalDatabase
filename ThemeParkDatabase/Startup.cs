@@ -65,8 +65,9 @@ namespace ThemeParkDatabase
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
-                    /*
+                    
                     options.Conventions.AllowAnonymousToPage("/Account/Login");
+                    /*
                     options.Conventions.AllowAnonymousToPage("/Accounts/Register");
                     options.Conventions.AllowAnonymousToPage("/Accounts/ResetPassword");
                     options.Conventions.AllowAnonymousToPage("/Accounts/ResetPasswordConfirmation");
