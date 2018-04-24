@@ -29,32 +29,45 @@ namespace ThemeParkDatabase
 
         public IConfiguration Configuration { get; }
         public IHostingEnvironment Environment { get; }
-        // This method gets called by the runtime. Use this method to add services to the container.
 
+
+
+        //Creates the account types, if they don't already exist, needs to be run in a method that gets run at call time 
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             string[] roleNames = { "Admin", "Manager", "Employee" };
-            IdentityResult RR;
+            
             foreach(var roleName in roleNames)
             {
                 var roleExist = await RoleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
                 {
-                    RR = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    await RoleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
         }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //default connects to the Accounts Database i.e. ApplicationDb
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //Connects to the project to the Theme Park Database
+            string connection = @"Server=(localdb)\mssqllocaldb;Database=ThemeParkDatabase;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<ThemeParkDatabaseContext>(b => b.UseSqlServer(connection));
+
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+
+            //Makes sure that when we authorize a page only the specified role(account type) can access it
             services.AddAuthorization(options =>
                 {
                     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
@@ -62,12 +75,24 @@ namespace ThemeParkDatabase
                     options.AddPolicy("Employee", policy => policy.RequireRole("Employee"));
                 });
 
-            services.AddMvc()
+            services.AddMvc();
+
+            // Register no-op EmailSender used by account confirmation and password reset during development
+            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
+            services.AddSingleton<IEmailSender, EmailSender>();
+
+
+
+
+
+
+
+            /*
                 .AddRazorPagesOptions(options =>
                 {
                     
                     options.Conventions.AllowAnonymousToPage("/Account/Login");
-                    /*
+                    
                     options.Conventions.AllowAnonymousToPage("/Accounts/Register");
                     options.Conventions.AllowAnonymousToPage("/Accounts/ResetPassword");
                     options.Conventions.AllowAnonymousToPage("/Accounts/ResetPasswordConfirmation");
@@ -78,22 +103,14 @@ namespace ThemeParkDatabase
                     options.Conventions.AuthorizeFolder("/Maintenance");
                     options.Conventions.AuthorizeFolder("/Account/Manage");
                     options.Conventions.AuthorizePage("/Account/Logout");
-                    */
+                    *
                 });
-
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=ThemeParkDatabase;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<ThemeParkDatabaseContext>(b => b.UseSqlServer(connection));
-                
-                
-                /*(options => options.UseSqlServer(connection));*/
-
-            // Register no-op EmailSender used by account confirmation and password reset during development
-            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-            services.AddSingleton<IEmailSender, EmailSender>();
+            */
+            //(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -109,7 +126,7 @@ namespace ThemeParkDatabase
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
+            CreateRoles(serviceProvider).Wait();
             app.UseMvc();
         }
     }

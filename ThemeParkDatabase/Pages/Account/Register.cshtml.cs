@@ -86,23 +86,26 @@ namespace ThemeParkDatabase.Pages.Account
            
             if (ModelState.IsValid)
             {
+                //create the user and get the roles
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
-
                 var roleManager = _service.GetRequiredService<RoleManager<IdentityRole>>();
-                var roleExists = await roleManager.RoleExistsAsync(Input.AccountType);
-                if( !roleExists)
+                
+                IdentityResult userVerified;
+
+                //if the role exists adds in the user and their role into the database, if not then reload the page
+                if (!await roleManager.RoleExistsAsync(Input.AccountType))
                 {
                     _logger.LogInformation("Role doesn't exist");
                     return Page();
                 }
                 else
                 {
+                    userVerified = await _userManager.CreateAsync(user, Input.Password);
                     await _userManager.AddToRoleAsync(user, Input.AccountType);
                 }
                 
-                
-                if (result.Succeeded)
+                //if the user was added successfully then return them back to whatever page they were on before
+                if (userVerified.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
@@ -113,7 +116,7 @@ namespace ThemeParkDatabase.Pages.Account
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(Url.GetLocalUrl(returnUrl));
                 }
-                foreach (var error in result.Errors)
+                foreach (var error in userVerified.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
