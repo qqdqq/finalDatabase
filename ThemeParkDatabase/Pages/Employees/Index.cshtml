@@ -66,92 +66,105 @@
     </div>
 </div>
 
+<div class="content-container">
+    <div class="col-md-6">
+        <h6>
+            Create and View the Departments
+
+        </h6>
+        <p>
+            <a asp-page="/Departments/Index"> View The Departments</a>
+
+        </p>
+    </div>
+    </div>
 
 
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-            google.charts.load("current", { "packages": ["corechart"] });
-            google.charts.setOnLoadCallback(drawChart);
-            function drawChart() {
-                $.ajax({
-                    url: "/Employees?handler=PieChart",
-                    type: "GET",
-                    dataType: "json",
-                    success: function (json) {
-                        var data = google.visualization.arrayToDataTable(json);
 
-                        var options = {
-                            title: "Department Budget",
-                            is3D: true,
-                        };
-                        var chart = new google.visualization.PieChart(document.getElementById("piechart"));
+    @section scripts
+        {
+        <script>
+            $(document).ready(function () {
+                google.charts.load("current", { "packages": ["corechart"] });
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+                    $.ajax({
+                        url: "/Employees?handler=PieChart",
+                        type: "GET",
+                        dataType: "json",
+                        success: function (json) {
+                            var data = google.visualization.arrayToDataTable(json);
 
-                        chart.draw(data, options);
-                    }
-                });
-            }
+                            var options = {
+                                title: "Department Budget",
+                                is3D: true,
+                            };
+                            var chart = new google.visualization.PieChart(document.getElementById("piechart"));
 
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var min = $('#min').datepicker("getDate");
-                    var max = $('#max').datepicker("getDate");
-                    var startDate = new Date(data[4]);
+                            chart.draw(data, options);
+                        }
+                    });
+                }
 
-                    if (min == null || max == null) {
-                        return true;
-                    }
-                    else {
-                        if (startDate >= min && startDate <= max) {
+                $.fn.dataTable.ext.search.push(
+                    function (settings, data, dataIndex) {
+                        var min = $('#min').datepicker("getDate");
+                        var max = $('#max').datepicker("getDate");
+                        var startDate = new Date(data[4]);
+
+                        if (min == null || max == null) {
                             return true;
                         }
-                    }
-                    return false;
-                }
-            );
-
-            var employeesTable = $("#employees-table").DataTable({
-                "autoWidth": false,
-                "footerCallback": function (row, data, start, end, display) {
-                    var api = this.api(), data;
-
-                    var intVal = function (i) {
-                        if (typeof i === "string") {
-                            return i.replace(/[\$,]/g, "") * 1;
-                        }
                         else {
-                            return i;
+                            if (startDate >= min && startDate <= max) {
+                                return true;
+                            }
                         }
-                    };
+                        return false;
+                    }
+                );
 
-                    var total = api.column(5, { search: "applied" }).data().reduce(function (a, b) {
-                        return intVal(a) + intVal(b)
-                    });
+                var employeesTable = $("#employees-table").DataTable({
+                    "autoWidth": false,
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
 
-                    var average = total / api.rows().count();
+                        var intVal = function (i) {
+                            if (typeof i === "string") {
+                                return i.replace(/[\$,]/g, "") * 1;
+                            }
+                            else {
+                                return i;
+                            }
+                        };
 
-                    $("#employees-table tfoot").html(
-                        "Total salaries: $" + total + "<br />" +
-                        "Average salaries: $" + average
-                    );
-                }
+                        var total = api.column(5, { search: "applied" }).data().reduce(function (a, b) {
+                            return intVal(a) + intVal(b)
+                        });
+
+                        var average = total / api.rows().count();
+
+                        $("#employees-table tfoot").html(
+                            "Total salaries: $" + total + "<br />" +
+                            "Average salaries: $" + average
+                        );
+                    }
+                });
+
+                $('#min').datepicker({
+                    yearRange: "1900:2018",
+                    changeMonth: true,
+                    changeYear: true
+                });
+                $('#max').datepicker({
+                    yearRange: "1900:2018",
+                    changeMonth: true,
+                    changeYear: true
+                });
+
+                $('#min, #max').change(function () {
+                    employeesTable.draw();
+                });
             });
-
-            $('#min').datepicker({
-                yearRange: "1900:2018",
-                changeMonth: true,
-                changeYear: true
-            });
-            $('#max').datepicker({
-                yearRange: "1900:2018",
-                changeMonth: true,
-                changeYear: true
-            });
-
-            $('#min, #max').change(function () {
-                employeesTable.draw();
-            });
-        });
-    </script>
-}
+        </script>
+    }
