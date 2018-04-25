@@ -17,7 +17,7 @@ namespace ThemeParkDatabase.Models
         public string Title { get; set; }
         [Display(Name = "Hire Date")]
         public DateTime HireDate { get; set; }
-        public int Salary { get; set; }
+        public decimal Salary { get; set; }
         public int DepartmentId { get; set; }
 
         public  Department Department { get; set; }

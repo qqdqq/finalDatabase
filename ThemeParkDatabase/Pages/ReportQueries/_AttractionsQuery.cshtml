@@ -1,0 +1,75 @@
+﻿@model ThemeParkDatabase.ViewModels.AttractionsQuery
+@using ThemeParkDatabase.Models;
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    List<Attraction> attractions = Model.Attractions.ToList();
+    if (Model.ReportQuery.AttractionName != "All")
+    {
+        attractions = attractions.Where(a => a.Name == Model.ReportQuery.AttractionName).ToList();
+
+    }
+    if (Model.ReportQuery.AttractionTypeId != -1)
+    {
+        attractions = attractions.Where(a => a.AttractionTypeId == Model.ReportQuery.AttractionTypeId).ToList();
+    }
+    if (Model.ReportQuery.LocationId != -1)
+    {
+        attractions = attractions.Where(a => a.LocationId == Model.ReportQuery.LocationId).ToList();
+
+    }
+
+    @:<div class="report">
+    @:<div class="report-header">
+        @:Name: @Model.ReportQuery.AttractionName
+        @:Location: @Model.ReportQuery.LocationId
+        @:Date: @Model.ReportQuery.StartDate - @Model.ReportQuery.EndDate
+        @:Type: @Model.ReportQuery.AttractionTypeId
+    @:</div>
+    foreach (var attraction in attractions)
+    {
+        List<AttractionVisit> visits = attraction.AttractionVisit
+            .Where(a => (a.Time >= Model.ReportQuery.StartDate) && (a.Time <= Model.ReportQuery.EndDate))
+            .OrderBy(a => a.Time)
+            .ToList();
+
+        @:<div>
+            <h3>@attraction.Name</h3>
+
+            <p>Total visits:@visits.Count()</p>
+
+            var firstDate = visits.First().Time;
+            var lastDate = visits.Last().Time;
+            var avgVisits = visits.Count() / (lastDate - firstDate).TotalDays;
+            <p>Average visits: @avgVisits.ToString("0.00")</p>
+
+            var highest = 0;
+            var highestDate = new DateTime();
+            var lowest = 9999999; // yea yea yea
+            var lowestDate = new DateTime();
+            for (DateTime iter = firstDate; iter.Date <= lastDate.Date; iter = iter.AddDays(1))
+            {
+                var visitCount = visits.Where(v => (v.Time >= iter) && (v.Time < iter.AddDays(1))).Count();
+
+                if (visitCount > highest)
+                {
+                    highestDate = iter;
+                    highest = visitCount;
+                }
+                if (visitCount < lowest)
+                {
+                    lowestDate = iter;
+                    lowest = visitCount;
+                }
+            }
+            <p>Highest count: @highest on @highestDate.ToString("MM/dd/yyyy") </p> // Can't get format right
+            <p>Lowest count: @lowest on @lowestDate.ToString()</p>
+
+            <p>Number of requests: @attraction.MaintenanceRequest.Count()</p>
+        @:</div>
+
+    }
+    @:</div>
+}

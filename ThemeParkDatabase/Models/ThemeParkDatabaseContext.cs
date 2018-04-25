@@ -22,7 +22,6 @@ namespace ThemeParkDatabase.Models
         public  DbSet<VendorSalesReport> VendorSalesReport { get; set; }
         public  DbSet<VendorType> VendorType { get; set; }
         public  DbSet<Visitor> Visitor { get; set; }
-        public  DbSet<WeatherAudit> WeatherAudit { get; set; }
         public  DbSet<MaintenanceAudit> MaintenanceAudit { get; set; }
 
         public ThemeParkDatabaseContext(DbContextOptions<ThemeParkDatabaseContext> options) : base(options)

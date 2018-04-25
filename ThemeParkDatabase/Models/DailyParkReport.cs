@@ -9,7 +9,7 @@ namespace ThemeParkDatabase.Models
         public int NumVisitors { get; set; }
         public bool Rainout { get; set; }
         public double Temperature { get; set; }
-        public double InchesPercipitation { get; set; }
+        public double InchesPrecipitation { get; set; }
         public DateTime Date { get; set; }
     }
 }
