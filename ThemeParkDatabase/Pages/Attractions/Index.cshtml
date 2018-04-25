@@ -1,0 +1,80 @@
+﻿@page
+@model ThemeParkDatabase.Pages.Attractions.IndexModel
+
+@{
+    ViewData["Title"] = "Attractions";
+}
+
+<h3>Attractions</h3>
+
+<div class="content-container">
+    <div id="popularity-graph"></div>
+</div>
+
+<div class="content-container">
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<table class="table table-hover table-responsive table-condensed" id="attractions-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attraction in Model.Attraction)
+        {
+            <tr name="attraction">
+                <td>@Html.DisplayFor(a => attraction.Id)</td>
+                <td>@Html.DisplayFor(a => attraction.Name)</td>
+                <td>@Html.DisplayFor(a => attraction.Location.Name)</td>
+                <td>@Html.DisplayFor(a => attraction.Description)</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@attraction.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@attraction.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@attraction.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    </div>
+
+@*<div id="attraction-visits-graph"></div>
+</div>*@
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#attractions-table").DataTable();
+
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+                $.ajax({
+                    url: "/Attractions?handler=AttractionPopularityGraph",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (json) {
+                        console.log(json);
+                        var data = google.visualization.arrayToDataTable(json);
+
+                        var options = {}
+
+                        var chart = new google.visualization.ColumnChart(document.getElementById('popularity-graph'));
+                        chart.draw(data, options);
+                    }
+                });
+
+            }
+        });
+    </script>
+}

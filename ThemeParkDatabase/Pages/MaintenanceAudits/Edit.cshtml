@@ -1,0 +1,67 @@
+@page
+@model ThemeParkDatabase.Pages.MaintenanceAudits.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>MaintenanceAudit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MaintenanceAudit.MaintenanceAuditId" class="control-label"></label>
+                <input asp-for="MaintenanceAudit.MaintenanceAuditId" class="form-control" />
+                <span asp-validation-for="MaintenanceAudit.MaintenanceAuditId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="MaintenanceAudit.Id" />
+            <div class="form-group">
+                <label asp-for="MaintenanceAudit.Description" class="control-label"></label>
+                <input asp-for="MaintenanceAudit.Description" class="form-control" />
+                <span asp-validation-for="MaintenanceAudit.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaintenanceAudit.DateRequested" class="control-label"></label>
+                <input asp-for="MaintenanceAudit.DateRequested" class="form-control" />
+                <span asp-validation-for="MaintenanceAudit.DateRequested" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaintenanceAudit.DateResolved" class="control-label"></label>
+                <input asp-for="MaintenanceAudit.DateResolved" class="form-control" />
+                <span asp-validation-for="MaintenanceAudit.DateResolved" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaintenanceAudit.CurrentStatus" class="control-label"></label>
+                <input asp-for="MaintenanceAudit.CurrentStatus" class="form-control" />
+                <span asp-validation-for="MaintenanceAudit.CurrentStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaintenanceAudit.EstimatedCost" class="control-label"></label>
+                <input asp-for="MaintenanceAudit.EstimatedCost" class="form-control" />
+                <span asp-validation-for="MaintenanceAudit.EstimatedCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaintenanceAudit.AttractionId" class="control-label"></label>
+                <input asp-for="MaintenanceAudit.AttractionId" class="form-control" />
+                <span asp-validation-for="MaintenanceAudit.AttractionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaintenanceAudit.UpdatedOn" class="control-label"></label>
+                <input asp-for="MaintenanceAudit.UpdatedOn" class="form-control" />
+                <span asp-validation-for="MaintenanceAudit.UpdatedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+

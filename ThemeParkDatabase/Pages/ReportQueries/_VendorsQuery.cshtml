@@ -1,0 +1,47 @@
+﻿@model ThemeParkDatabase.ViewModels.VendorsQuery
+@using ThemeParkDatabase.Models;
+
+@{
+    @:<div class="report">
+        @:<div class="report-header">
+            @:Name: @Model.ReportQuery.AttractionName
+            @:Location: @Model.ReportQuery.LocationId
+            @:Date: @Model.ReportQuery.StartDate - @Model.ReportQuery.EndDate
+            @:Type: @Model.ReportQuery.AttractionTypeId
+            @:
+        @:</div>
+        List<Vendor> vendors = Model.Vendors.ToList();
+        foreach (var vendor in vendors)
+        {
+            List<VendorSalesReport> salesReports = vendor.VendorSalesReport
+                .Where(v => (v.Date >= Model.ReportQuery.StartDate) && (v.Date <= Model.ReportQuery.EndDate))
+                .OrderBy(v => v.Date).ToList();
+
+            @:<div>
+                <h4>@vendor.Name</h4>
+
+                var totalSales = new decimal();
+                foreach (var salesReport in salesReports)
+                {
+                    totalSales += salesReport.TotalSales;
+                }
+                <p>Total Sales: $@totalSales</p>
+
+                var salesGoal = new decimal();
+                foreach (var salesReport in salesReports)
+                {
+                    salesGoal += salesReport.SalesGoal;
+                }
+                <p>Sales Goal: $@salesGoal.ToString("0.00")</p>
+
+                var difference = (totalSales - salesGoal).ToString("0.00");
+                <p>Difference: $@difference</p>
+                var differencePercent = totalSales / salesGoal;
+                <p>Average Difference: %@differencePercent.ToString("0.00")</p>
+
+                var avgSales = (double)totalSales / Math.Ceiling( (salesReports.Last().Date - salesReports.First().Date).TotalDays + 1.0);
+                <p>Average Sales: $@avgSales.ToString("0.00")</p>
+            @:</div>
+        }
+    @:</div>
+}

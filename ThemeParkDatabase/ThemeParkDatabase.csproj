@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-ThemeParkDatabase-8AEB58B4-BB63-415B-B7E8-707EBAAE834A</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20180420230922_AddEmployeeRelationToDeletionRequest.cs" />
+    <Compile Remove="Migrations\20180420230922_AddEmployeeRelationToDeletionRequest.Designer.cs" />
+    <Compile Remove="Migrations\20180420231119_Initial.cs" />
+    <Compile Remove="Migrations\20180420231119_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20180422235900_WeatherAudit.cs" />
+    <Compile Remove="Migrations\20180422235900_WeatherAudit.Designer.cs" />
+    <Compile Remove="Migrations\20180423003758_Initial.cs" />
+    <Compile Remove="Migrations\20180423003758_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20180425181238_ChangeIntToDecimal.cs" />
+    <Compile Remove="Migrations\20180425181238_ChangeIntToDecimal.Designer.cs" />
+    <Compile Remove="Migrations\20180425181522_ChangeIntToDecimal.cs" />
+    <Compile Remove="Migrations\20180425181522_ChangeIntToDecimal.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.2" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.1" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Deletions\" />
+  </ItemGroup>
+</Project>
