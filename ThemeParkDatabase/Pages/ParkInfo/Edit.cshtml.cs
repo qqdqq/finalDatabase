@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThemeParkDatabase.Models;
-
+using Microsoft.AspNetCore.Authorization;
 namespace ThemeParkDatabase.Pages.ParkInfo
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class EditModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;

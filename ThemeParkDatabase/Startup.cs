@@ -86,8 +86,8 @@ namespace ThemeParkDatabase
 
 
 
-
             /*
+                services.AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
                     
@@ -96,17 +96,24 @@ namespace ThemeParkDatabase
                     options.Conventions.AllowAnonymousToPage("/Accounts/Register");
                     options.Conventions.AllowAnonymousToPage("/Accounts/ResetPassword");
                     options.Conventions.AllowAnonymousToPage("/Accounts/ResetPasswordConfirmation");
-                    /*
+
+                    
+                    
                     options.Conventions.AuthorizePage("/Index");
                     options.Conventions.AuthorizeFolder("/Employees");
                     options.Conventions.AuthorizeFolder("/Visitors");
                     options.Conventions.AuthorizeFolder("/Maintenance");
                     options.Conventions.AuthorizeFolder("/Account/Manage");
                     options.Conventions.AuthorizePage("/Account/Logout");
-                    *
+                    
                 });
+                
             */
+
+
             //(options => options.UseSqlServer(connection));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

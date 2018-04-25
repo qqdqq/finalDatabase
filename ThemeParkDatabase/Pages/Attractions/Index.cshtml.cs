@@ -33,6 +33,8 @@ namespace ThemeParkDatabase.Pages.Attractions
                 .Include(a => a.Location).ToListAsync();
         }
 
+
+        [Authorize(Roles = "Admin, Management")]
         [HttpGet("AttractionDetails")]
         public JsonResult OnGetAttractionDetails(int id)
         {

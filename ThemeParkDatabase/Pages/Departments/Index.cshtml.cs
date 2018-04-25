@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ThemeParkDatabase.Models;
-
+using Microsoft.AspNetCore.Authorization;
 namespace ThemeParkDatabase.Pages.Departments
 {
+    [Authorize(Roles = "Admin, Manager, Employee")]
     public class IndexModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;

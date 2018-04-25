@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ThemeParkDatabase.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ThemeParkDatabase.Pages.Locations
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class CreateModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;

@@ -202,18 +202,32 @@
                     <ul class="components list-unstyled">
 
 
-                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-                        {
+                        @if (User.IsInRole("Employee"))
+                    {
+                    <li><a asp-page="/Attractions/Index"><i class="glyphicon glyphicon-piggy-bank"></i>Attractions</a></li>
+                    <li><a asp-page="/ParkInfo/Index"><i class="=glyphicon glyphicon-book"></i>ParkInformation</a></li>
+                    <li><a asp-page="/Vendors/Index"><i class="glyphicon glyphicon-pencil"></i>Vendors</a></li>
 
-                            <li><a asp-page="/Maintenance/Index"><i class="glyphicon glyphicon-apple"></i>Maintenance</a></li>
-                            <li><a asp-page="/Employees/Index"><i class="glyphicon glyphicon-book"></i>Employees</a></li>
-                            <li><a asp-page="/Reports/Index"><i class="glyphicon glyphicon-plane"></i>Reports</a></li>
+                    }
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                         {
+        
+
+                    <li><a asp-page="/Maintenance/Index"><i class="glyphicon glyphicon-apple"></i>Maintenance</a></li>
+                    <li><a asp-page="/Employees/Index"><i class="glyphicon glyphicon-book"></i>Employees</a></li>
+                    <li><a asp-page="/Reports/Index"><i class="glyphicon glyphicon-plane"></i>Reports</a></li>
+                    <li><a asp-page="/Visitors/Index"><i class="glyphicon glyphicon-star"></i>Visitors</a></li>
+
+                    <li><a asp-page="/Attractions/Index"><i class="glyphicon glyphicon-piggy-bank"></i>Attractions</a></li>
+                    <li><a asp-page="/ParkInfo/Index"><i class="=glyphicon glyphicon-book"></i>ParkInformation</a></li>
+                    <li><a asp-page="/Vendors/Index"><i class="glyphicon glyphicon-pencil"></i>Vendors</a></li>
 
                         }
 
-                        <li><a asp-page="/Attractions/Index"><i class="glyphicon glyphicon-piggy-bank"></i>Attractions</a></li>
-                        <li><a asp-page="/Visitors/Index"><i class="glyphicon glyphicon-star"></i>Visitors</a></li>
-                        <li><a asp-page="/Vendors/Index"><i class="glyphicon glyphicon-pencil"></i>Vendors</a></li>
+
+
+
 
 
                     </ul>
