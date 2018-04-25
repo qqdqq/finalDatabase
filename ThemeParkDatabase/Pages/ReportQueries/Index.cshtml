@@ -5,40 +5,46 @@
 }
 
 <style>
-    #query-box {
-        display: flex;
-        flex-direction: row;
-    }
+#query-box {
+    display: flex;
+    flex-direction: row;
+}
 
-    #query-form {
-        margin: 0 auto;
-    }
+#query-form {
+    margin: 0 auto;
+}
 
-    #query-form .form-group {
-        margin: 5px;
-        display: inline-block;
-    }
+#query-form .form-group {
+    margin: 5px;
+    display: inline-block;
+}
 
 .reports-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 85%;
     margin: 0 auto;
     margin-top: 20px;
-    height: 200px;
-    background: red;
-    }
+}
 
-    .report {
-        width: 100%;
-    }
+.report {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.75);*/
+    padding-right: 15px;
+    margin-top: 15px;
+    flex: 1 0 10px;
+}
     
-    .report-header {
-        width: 100%;
-        height: 25px;
-        background: black;
-    }
+.report-header {
+    width: 100%;
+    height: 25px;
+    background: black;
+}
 </style>
 
 <div id="query-box">
@@ -131,6 +137,7 @@
             </div>
         </div>
         <input type="button" value="Submit" id="submit-query">
+        <input type="button" value="Clear" id="clear-reports" />
     </form>
 </div>
 
@@ -148,6 +155,11 @@
                 refreshFilters();
             });
 
+            $("#clear-reports").on("click", function () {
+                $(".reports-container").empty();
+
+            });
+
             $("#submit-query").on("click", function () {
                 var formData = $("#query-form").serializeArray(); // Just .serialize or serialize array?
                 $.ajax({
@@ -160,8 +172,7 @@
                     dataType: "html",
                     data: formData,
                     success: function (data) {
-                        $(".reports-container").prepend(data);
-                        console.log(data);
+                        $(".reports-container").prepend("<div style='width:100%;'></div>" + data);
                     }
                 })
             });

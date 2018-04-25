@@ -3,13 +3,6 @@
 
 @{
     @:<div class="report">
-        @:<div class="report-header">
-            @:Name: @Model.ReportQuery.AttractionName
-            @:Location: @Model.ReportQuery.LocationId
-            @:Date: @Model.ReportQuery.StartDate - @Model.ReportQuery.EndDate
-            @:Type: @Model.ReportQuery.AttractionTypeId
-            @:
-        @:</div>
         List<Vendor> vendors = Model.Vendors.ToList();
         foreach (var vendor in vendors)
         {

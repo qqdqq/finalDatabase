@@ -10,5 +10,6 @@ namespace ThemeParkDatabase.ViewModels
     {
         public ReportQuery ReportQuery { get; set; }
         public List<Vendor> Vendors { get; set; }
+        public List<VendorType> VendorTypes { get; set; }
     }
 }
