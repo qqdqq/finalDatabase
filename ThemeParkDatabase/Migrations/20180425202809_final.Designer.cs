@@ -11,9 +11,10 @@ using ThemeParkDatabase.Models;
 namespace ThemeParkDatabase.Migrations
 {
     [DbContext(typeof(ThemeParkDatabaseContext))]
-    partial class ThemeParkDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20180425202809_final")]
+    partial class final
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
