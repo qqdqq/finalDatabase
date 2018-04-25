@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +12,6 @@ using ThemeParkDatabase.Models;
 
 namespace ThemeParkDatabase.Pages.Visitors
 {
-
-    [Authorize(Roles ="Admin, Manager")]
     public class IndexModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;
@@ -33,45 +30,22 @@ namespace ThemeParkDatabase.Pages.Visitors
 
         public ActionResult OnGetTicketGraph()
         {
-            var visitors = _context.Visitor.Include(v => v.Ticket).ToList();
-            var ticketTypes = _context.TicketType.ToList();
-            var dictionary = new Dictionary<string, int>();
+            /* var visitors = _context.Visitor.Include(v => v.Ticket).ToList(); */
+            /* var ticketTypes = _context.TicketType.ToList(); */
 
-            foreach (var ticketType in ticketTypes)
-            {
-                dictionary.Add(ticketType.Name, 0);
-            }
-            foreach (var visitor in visitors)
-            {
-                foreach (var ticket in visitor.Ticket)
-                {
-                    var ticketType = ticketTypes.Where(tt => tt.Id == ticket.TicketTypeId).Single();
-                    dictionary[ticketType.Name]++;
-                }
-            }
+            /* QUERY: select all tickets and group by ticket type */
+            /* var result = from entity in _context.Ticket */
+            /*     group entity by entity.TicketTypeId into e */
+            /*     select new { ticket_type = e.Key, tickets = e }; */
 
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            using (JsonWriter w = new JsonTextWriter(sw))
-            {
-                w.WriteStartArray();
-                w.WriteStartArray();
-                w.WriteValue("Name");
-                w.WriteValue("Number");
-                w.WriteEndArray();
+            /* QUERY: select all ticket types and the number of tickets of each ticket type */
+            var result = from tt in _context.TicketType
+                select new { ticket_type = tt.Name, ticket_count = tt.Ticket.Count() };
 
-                foreach (var ticketType in ticketTypes)
-                {
-                    w.WriteStartArray();
-                    w.WriteValue(ticketType.Name);
-                    w.WriteValue(dictionary[ticketType.Name]);
-                    w.WriteEndArray();
-                }
 
-                w.WriteEndArray();
-            }
-
-            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+            /* serialize result into json */ 
+            return new ContentResult { Content = JsonConvert.SerializeObject(result, Formatting.Indented), ContentType = "application/json" };
+            /* return new ContentResult { Content = JsonConvert.SerializeObject(results, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ContentType = "application/json" }; */
         }
     }
 }

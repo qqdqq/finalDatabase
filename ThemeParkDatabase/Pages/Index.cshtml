@@ -1,66 +1,177 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Dashboard";
 }
-<div class="content-container">
-
-    
-
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-       
-      
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/ThemePark-1500px.png" alt="ThemeParkImages1" class="img-responsive" />
-            <div class="carousel-caption" role="option">                
-            </div>
-        </div> 
-    </div>
-</div>
 
 <div class="row">
-    <div class="col-md-3">
-        <h3>About</h3>
-        <ul>
-            <li>
-                We're no strangers to love
-                You know the rules and so do I
-                A full commitment's what I'm thinking of
-                You wouldn't get this from any other guy
-                I just wanna tell you how I'm feeling
-                Gotta make you understand
-                Never gonna give you up
-                Never gonna let you down
-                Never gonna run around and desert you
-                Never gonna make you cry
-                Never gonna say goodbye
-                Never gonna tell a lie and hurt yo
-            </li>
-            
-        </ul>
-    </div>
-    <div class="col-md-3">
-       
-    </div>
-   
-    <div class="col-md-3">
-        <h3>Our misson </h3>
-        <ul>
-            <li>
-                We can dance if we want to, we can leave your friends behind
-                Cause your friends don't dance and if they don't dance
-                Well they're are no friends of mine
-                I say, we can go where we want to a place where they will never find
-                And we can act like we come from out of this world
-                Leave the real one far behind
-                And we can dance.
-            </li>
-        </ul>
-    </div>
-</div>
+    <div class="col-md-12">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Today</h3>
+        </div>
+        <div class="box-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="info-box">
+              <span class="info-box-icon bg-red"><i class="ion ion-ios-gear-outline"></i></span>
 
+              <div class="info-box-content">
+                <span class="info-box-text">Maintenance Requests</span>
+                <span class="info-box-number">41,410</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-4">
+            <div class="info-box">
+              <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Sales</span>
+                <span class="info-box-number">41,410</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-4">
+            <div class="info-box">
+              <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Visits</span>
+                <span class="info-box-number">41,410</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
     </div>
+    <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+
+<!-- <div class="row"> -->
+<!--     <div class="col-md-12"> -->
+<!--     <div class="box box-primary"> -->
+<!--         <div class="box-header with-border"> -->
+<!--           <h3 class="box-title">Ticket Types</h3> -->
+<!--         </div> -->
+<!--         <div class="box-body"> -->
+<!--           <div class="chart"> -->
+<!--             <canvas id="barChart" style="height: 250px; width: 1160px;" width="1160" height="250"></canvas> -->
+<!--           </div> -->
+<!--           <1!-- /.chart --1> -->
+<!--         </div> -->
+<!--         <1!-- /.box-body --1> -->
+<!--     </div> -->
+<!--     <1!-- /.box --1> -->
+<!--     </div> -->
+<!--     <1!-- /.col --1> -->
+<!-- </div> -->
+<!-- <1!-- /.row --1> -->
+
+@section scripts
+{
+<script>
+  $(function () {
+  var chartData = {
+    labels: [],
+      datasets: [
+        {
+          label               : "Ticket Types",
+          fillColor           : 'rgba(210, 214, 222, 1)',
+          strokeColor         : 'rgba(210, 214, 222, 1)',
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#abc',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : []
+        }
+      ]
+  }
+  function respondCanvas() {
+      var barChartCanvas = $('#barChart').get(0).getContext('2d')
+      var barChart = new Chart(barChartCanvas)
+      var barChartOptions = {
+        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero        : true,
+        //Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines      : true,
+        //String - Colour of the grid lines
+        scaleGridLineColor      : 'rgba(0,0,0,.05)',
+        //Number - Width of the grid lines
+        scaleGridLineWidth      : 1,
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines  : true,
+        //Boolean - If there is a stroke on each bar
+        barShowStroke           : true,
+        //Number - Pixel width of the bar stroke
+        barStrokeWidth          : 2,
+        //Number - Spacing between each of the X value sets
+        barValueSpacing         : 5,
+        //Number - Spacing between data sets within X values
+        barDatasetSpacing       : 1,
+        //String - A legend template
+        legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label%><%}%></li><%}%></ul>',
+        //Boolean - whether to make the chart responsive
+        responsive              : true,
+        maintainAspectRatio     : true
+      }
+      barChartOptions.datasetFill = true
+      barChart.Bar(chartData, barChartOptions)
+  }
+
+  var GetChartData = function () {
+      $.ajax({
+          url: "/Visitor?handler=TicketGraph",
+          method: 'GET',
+          dataType: 'json',
+          success: function (d) {
+            var labels = []
+            var data = []
+            $.each(d, function (index, value) {
+              console.log(value.ticket_type);
+              labels.push(value.ticket_type);
+              console.log(value.ticket_type);
+              data.push(value.ticket_count);
+            });
+            chartData = {
+            labels: labels,
+              datasets: [
+                {
+                  label               : "Ticket Types",
+                  fillColor           : "rgba(210, 214, 222, 1)",
+                  strokeColor         : "gba(210, 214, 222, 1)",
+                  pointColor          : "rgba(210, 214, 222, 1)",
+                  pointStrokeColor    : "#c1c7d1",
+                  pointHighlightFill  : "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data                : data
+                }
+              ]
+            }
+            respondCanvas();
+          }
+      });
+  };
+  $(document).ready(function() {
+      respondCanvas();
+      GetChartData();
+  });
+  <!-- //$('#visitors-table').DataTable() -->
+</script>
+}

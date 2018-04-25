@@ -18,29 +18,23 @@
                 .OrderBy(v => v.Date).ToList();
 
             @:<div>
-                <h4>@vendor.Name</h4>
+                <p>@vendor.Name</p>
+                
+                <p>Number of sales reports: @salesReports.Count()</p>
 
                 var totalSales = new decimal();
                 foreach (var salesReport in salesReports)
                 {
                     totalSales += salesReport.TotalSales;
                 }
-                <p>Total Sales: $@totalSales</p>
+                <p>Total Sales: @totalSales</p>
 
                 var salesGoal = new decimal();
                 foreach (var salesReport in salesReports)
                 {
                     salesGoal += salesReport.SalesGoal;
                 }
-                <p>Sales Goal: $@salesGoal.ToString("0.00")</p>
-
-                var difference = (totalSales - salesGoal).ToString("0.00");
-                <p>Difference: $@difference</p>
-                var differencePercent = totalSales / salesGoal;
-                <p>Average Difference: %@differencePercent.ToString("0.00")</p>
-
-                var avgSales = (double)totalSales / Math.Ceiling( (salesReports.Last().Date - salesReports.First().Date).TotalDays + 1.0);
-                <p>Average Sales: $@avgSales.ToString("0.00")</p>
+                <p>Sales Goal: @salesGoal.ToString("0.00")</p>
             @:</div>
         }
     @:</div>

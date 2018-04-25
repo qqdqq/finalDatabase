@@ -9,12 +9,9 @@ using ThemeParkDatabase.Models;
 using Newtonsoft.Json;
 using System.Text;
 using System.IO;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ThemeParkDatabase.Pages.Maintenance
 {
-
-    [Authorize(Roles = "Admin, Manager")]
     public class IndexModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;
@@ -29,6 +26,7 @@ namespace ThemeParkDatabase.Pages.Maintenance
         public async Task OnGetAsync()
         {
             MaintenanceRequest = await _context.MaintenanceRequest
+                .Where(mr => mr.DateResolved == null)
                 .Include(m => m.Attraction).ToListAsync();
         }
 
@@ -71,62 +69,55 @@ namespace ThemeParkDatabase.Pages.Maintenance
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
 
-        [HttpGet("MaintenanceDetails")]
-        public JsonResult OnGetMaintenanceDetails(int id)
+        public ActionResult OnGetCostNumberGraph()
         {
-            var request = _context.MaintenanceRequest.Include(m => m.Attraction).Where(r => r.Id == id);
-            var attraction = _context.Attraction.Where(a => a.Id == id);
-            return new JsonResult(new
+            var attractions = _context.Attraction.Include(a => a.MaintenanceRequest).ToList();
+            double totalCost = 0;
+            int numOfRequests = 0;
+
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            using (JsonWriter w = new JsonTextWriter(sw))
             {
-                id = request.First().Id,
-                name = attraction.First().Name,
-                status = request.First().CurrentStatus,
-                cost = request.First().EstimatedCost,
-                requested = request.First().DateRequested,
-                resolved = request.First().DateResolved
-            });
+                w.Formatting = Formatting.Indented;
+
+                w.WriteStartArray();
+
+                w.WriteStartArray();
+                w.WriteValue("Name");
+                w.WriteValue("Total Cost");
+                w.WriteValue("Number of Requests");
+                w.WriteEndArray();
+
+                foreach (var attraction in attractions)
+                {
+                    w.WriteStartArray();
+                    w.WriteValue(attraction.Name);
+                    foreach (var report in attraction.MaintenanceRequest)
+                    {
+                        totalCost += (double)report.EstimatedCost;
+                        numOfRequests++;
+                    }
+                    w.WriteValue(totalCost);
+                    w.WriteValue(numOfRequests);
+                    w.WriteEndArray();        
+                    totalCost = 0;
+                    numOfRequests = 0;
+                }
+
+                w.WriteEndArray();
+
+                return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+            }
         }
 
-        //public ActionResult OnGetCostNumberGraph()
-        //{
-        //    var attractions = _context.Attraction.Include(a => a.MaintenanceRequest).ToList();
-        //    double totalCost = 0;
-        //    int numOfRequests = 0;
+        public ActionResult OnGetMaintenanceCount()
+        {
+            var result = from mr in _context.Attraction
+                select new { attraction_id = mr.Id, maintenance_request_count = mr.MaintenanceRequest.Count() };
 
-        //    StringBuilder sb = new StringBuilder();
-        //    StringWriter sw = new StringWriter(sb);
-        //    using (JsonWriter w = new JsonTextWriter(sw))
-        //    {
-        //        w.Formatting = Formatting.Indented;
-
-        //        w.WriteStartArray();
-
-        //        w.WriteStartArray();
-        //        w.WriteValue("Name");
-        //        w.WriteValue("Total Cost");
-        //        w.WriteValue("Number of Requests");
-        //        w.WriteEndArray();
-
-        //        foreach (var attraction in attractions)
-        //        {
-        //            w.WriteStartArray();
-        //            w.WriteValue(attraction.Name);
-        //            foreach (var report in attraction.MaintenanceRequest)
-        //            {
-        //                totalCost += (double)report.EstimatedCost;
-        //                numOfRequests++;
-        //            }
-        //            w.WriteValue(totalCost);
-        //            w.WriteValue(numOfRequests);
-        //            w.WriteEndArray();        
-        //            totalCost = 0;
-        //            numOfRequests = 0;
-        //        }
-
-        //        w.WriteEndArray();
-
-        //        return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
-        //    }
-        //}
+            /* serialize result into json */ 
+            return new ContentResult { Content = JsonConvert.SerializeObject(result, Formatting.Indented), ContentType = "application/json" };
+        }
     }
 }

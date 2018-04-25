@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ThemeParkDatabase.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ThemeParkDatabase.Pages.Attractions
 {
-    [Authorize(Roles = "Admin, Manager")]
     public class DeleteModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;

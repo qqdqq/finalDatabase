@@ -2,35 +2,54 @@
 @model ThemeParkDatabase.Pages.AttractionTypes.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Attraction Types";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h2 class="box-title">Attraction Types<h4><a asp-page="Create">Create New</a></h4></h2>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered table-hover" id="attractiontypes-table">
+            <thead>
+              <tr>
+                <th>ID</th>
                 <th>
                     @Html.DisplayNameFor(model => model.AttractionType[0].Name)
                 </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.AttractionType) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (var item in Model.AttractionType) {
+                <tr name="attractiontypes" data-id="@item.Id">
+                    <td><a asp-page="./Details"
+                        asp-route-id="@item.Id">@Html.DisplayFor(v => item.Id)</a></td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <!-- <td> -->
+                    <!--     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> | -->
+                    <!--     <a asp-page="./Details" asp-route-id="@item.Id">Details</a> | -->
+                    <!--     <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a> -->
+                    <!-- </td> -->
+                </tr>
+              }
+            </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+  <!-- /.col -->
+</div>
+<!-- /.row -->
+
+@section scripts {
+<script>
+  $("#attractiontypes-table").DataTable();
+</script>
 }
-    </tbody>
-</table>

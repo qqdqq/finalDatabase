@@ -11,11 +11,9 @@ using Newtonsoft.Json.Linq;
 using System.Net.Mime;
 using System.Text;
 using System.IO;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ThemeParkDatabase.Pages.Employees
 {
-    [Authorize(Roles = "Admin, Manager")]
     public class IndexModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;

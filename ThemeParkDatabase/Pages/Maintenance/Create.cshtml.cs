@@ -20,7 +20,7 @@ namespace ThemeParkDatabase.Pages.Maintenance
 
         public IActionResult OnGet()
         {
-        ViewData["AttractionId"] = new SelectList(_context.Attraction, "Id", "Description");
+            ViewData["AttractionId"] = new SelectList(_context.Attraction, "Id", "Name");
             return Page();
         }
 

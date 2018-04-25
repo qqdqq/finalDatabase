@@ -36,7 +36,8 @@ namespace ThemeParkDatabase.Pages.Maintenance
             {
                 return NotFound();
             }
-           ViewData["AttractionId"] = new SelectList(_context.Attraction, "Id", "Name");
+            ViewData["AttractionId"] = new SelectList(_context.Attraction, "Id", "Id");
+
             return Page();
         }
 

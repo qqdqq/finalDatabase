@@ -5,83 +5,165 @@
     ViewData["Title"] = "Visitors";
 }
 
+<div class="row">
+    <div class="col-md-12">
+    <!-- DONUT CHART -->
+    <div class="box box-danger">
+        <div class="box-header with-border">
+          <h3 class="box-title">Ticket Types Purchased</h3>
 
-
-<h3>Visitors</h3>
-
-<div class="content-container">
-
-<div id="ticket-popularity-pie" style="width: 900px; position: relative; left: 55px; height: 300px; margin-left: auto; margin-right: auto;"></div>
-
-</div>
-
-<div class="content-container">
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table table-responsive table-hover table-striped" id="visitors-table">
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>First Name</td>
-            <td>Last Name</td>
-            <td>Date of Birth</td>
-            <td>Email</td>
-            <td>Phone</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Visitor) {
-        <tr>
-            <td>@Html.DisplayFor(v => item.Id)</td>
-            <td>@Html.DisplayFor(v => item.FirstName)</td>
-            <td>@Html.DisplayFor(v => item.LastName)</td>
-            <td>@Html.DisplayFor(v => item.DateOfBirth)</td>
-            <td>@Html.DisplayFor(v => item.Email)</td>
-            <td>@Html.DisplayFor(v => item.PhoneNumber)</td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+        </div>
+        <div class="box-body">
+        <div class="chart">
+          <canvas id="barChart" style="height:250px"></canvas>
+        </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
 
     </div>
+    <!-- /.col (LEFT) -->
 </div>
+<!-- /.row -->
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h2 class="box-title">Visitors<h4><a asp-page="Create">Create
+              New</a></h4></h2>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered table-hover" id="visitors-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Visitor) {
+              <tr name="visitor" data-id="@item.Id">
+                    <td><a asp-page="./Details" asp-route-id="@item.Id">@Html.DisplayFor(v => item.Id)</a></td>
+                    <td>@Html.DisplayFor(v => item.FirstName)</td>
+                    <td>@Html.DisplayFor(v => item.LastName)</td>
+                    <td>@Html.DisplayFor(v => item.DateOfBirth)</td>
+                    <td>@Html.DisplayFor(v => item.Email)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+  <!-- /.col -->
+</div>
+<!-- /.row -->
 
 @section scripts
 {
-    <script>
-        $(document).ready(function () {
-            google.charts.load("current", { packages: ["corechart"] });
-            google.charts.setOnLoadCallback(drawChart);
+<script>
+  function getRgbHex() {
+    return '#' + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+  }
+  var chartData = {
+    labels: [],
+      datasets: [
+        {
+          label               : "Ticket Types",
+          fillColor           : 'rgba(210, 214, 222, 1)',
+          strokeColor         : 'rgba(210, 214, 222, 1)',
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#abc',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : []
+        }
+      ]
+  }
+  function respondCanvas() {
+      var barChartCanvas = $('#barChart').get(0).getContext('2d')
+      var barChart = new Chart(barChartCanvas)
+      var barChartOptions = {
+        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero        : true,
+        //Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines      : true,
+        //String - Colour of the grid lines
+        scaleGridLineColor      : 'rgba(0,0,0,.05)',
+        //Number - Width of the grid lines
+        scaleGridLineWidth      : 1,
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines  : true,
+        //Boolean - If there is a stroke on each bar
+        barShowStroke           : true,
+        //Number - Pixel width of the bar stroke
+        barStrokeWidth          : 2,
+        //Number - Spacing between each of the X value sets
+        barValueSpacing         : 5,
+        //Number - Spacing between data sets within X values
+        barDatasetSpacing       : 1,
+        //String - A legend template
+        legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label%><%}%></li><%}%></ul>',
+        //Boolean - whether to make the chart responsive
+        responsive              : true,
+        maintainAspectRatio     : true
+      }
+      barChartOptions.datasetFill = true
+      barChart.Bar(chartData, barChartOptions)
+  }
 
-            function drawChart() {
-                $.ajax({
-                    url: "/Visitors?handler=TicketGraph",
-                    type: "GET",
-                    dataType: "json",
-                    success: function (json) {
-                        var data = new google.visualization.arrayToDataTable(json);
-
-                        var options = {
-                            title: "Ticket Type Popularity"
-                        }
-
-                        var chart = new google.visualization.PieChart(document.getElementById('ticket-popularity-pie'));
-
-                        chart.draw(data, options);
-                    }
-
-                });
-
+  var GetChartData = function () {
+      $.ajax({
+          url: "/Visitors?handler=TicketGraph",
+          method: 'GET',
+          dataType: 'json',
+          success: function (d) {
+            var labels = []
+            var data = []
+            $.each(d, function (index, value) {
+              console.log(value.ticket_type);
+              labels.push(value.ticket_type);
+              console.log(value.ticket_type);
+              data.push(value.ticket_count);
+            });
+            chartData = {
+            labels: labels,
+              datasets: [
+                {
+                  label               : "Ticket Types",
+                  fillColor           : "rgba(210, 214, 222, 1)",
+                  strokeColor         : "gba(210, 214, 222, 1)",
+                  pointColor          : "rgba(210, 214, 222, 1)",
+                  pointStrokeColor    : "#c1c7d1",
+                  pointHighlightFill  : "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data                : data
+                }
+              ]
             }
-
-            $("#visitors-table").DataTable();
-        });
-    </script>
+            respondCanvas();
+          }
+      });
+  };
+  $(document).ready(function() {
+      respondCanvas();
+      GetChartData();
+  });
+  $('#visitors-table').DataTable()
+</script>
 }

@@ -5,11 +5,14 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-<div class="content-container">
-    <div>
-        <h4>Attraction</h4>
-        <hr />
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h3 class="box-title">Attraction - Details</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Attraction.Name)
@@ -24,7 +27,8 @@
                 @Html.DisplayFor(model => model.Attraction.Description)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Attraction.AttractionType)
+                <!-- @Html.DisplayNameFor(model => model.Attraction.AttractionType) -->
+                Attraction Type
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Attraction.AttractionType.Name)
@@ -36,9 +40,15 @@
                 @Html.DisplayFor(model => model.Attraction.Location.Name)
             </dd>
         </dl>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+          <a asp-page="./Edit" asp-route-id="@Model.Attraction.Id">Edit</a> |
+          <a asp-page="./Index">Back to List</a>
+      </div>
     </div>
-    <div>
-        <a asp-page="./Edit" asp-route-id="@Model.Attraction.Id">Edit</a> |
-        <a asp-page="./Index">Back to List</a>
-    </div>
-    </div>
+    <!-- /.box -->
+  </div>
+  <!-- ./col -->
+</div>
+<!-- /.row -->

@@ -15,7 +15,7 @@ using ThemeParkDatabase.Models;
 namespace ThemeParkDatabase.Pages.Reports
 {
 
-    [Authorize(Roles = "Admin, Manager")]
+    /* [Authorize(Roles = "Admin, Manager")] */
     public class IndexModel : PageModel
     {
         private ThemeParkDatabaseContext _context;

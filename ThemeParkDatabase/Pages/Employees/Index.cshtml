@@ -5,153 +5,205 @@
     ViewData["Title"] = "Employees";
 }
 
-<style>
-    div#piechart {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
+<div class="row">
+    <div class="col-xs-12">
+    <!-- BAR CHART -->
+    <div class="box box-success">
+        <div class="box-header with-border">
+        <h3 class="box-title">Employees</h3>
 
-<h3>Employees</h3>
-<div class="content-container" style="display: flex; padding: 10px 0 10px 0;">
-    <div id="piechart" style="width: 500px; height: 400px;"></div>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+        </div>
+        <div class="box-body">
+        <div class="chart">
+            <canvas id="barChart" style="height:230px"></canvas>
+        </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    </div>
+    <!-- /.col (RIGHT) -->
 </div>
+<!-- /.row -->
 
-<div class="content-container">
-    <p>
-        <a asp-page="Create">Create New</a>
-    </p>
-    <table class="table table-responsive table-hover table-condensed" id="employees-table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Employee[0].FirstName)</th>
-                <th>@Html.DisplayNameFor(model => model.Employee[0].MiddleInitial)</th>
-                <th>@Html.DisplayNameFor(model => model.Employee[0].LastName)</th>
-                <th>@Html.DisplayNameFor(model => model.Employee[0].Title)</th>
-                <th>@Html.DisplayNameFor(model => model.Employee[0].HireDate)</th>
-                <th>@Html.DisplayNameFor(model => model.Employee[0].Salary)</th>
-                <th>@Html.DisplayNameFor(model => model.Employee[0].Department)</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Employee)
-            {
-                var hireDate = String.Format("{0:MM/dd/yyyy}", item.HireDate);
-
-                <tr name="employee" data-id="@item.Id">
-                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.MiddleInitial)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                    <td>@hireDate</td>
-                    <td>$@Html.DisplayFor(modelItem => item.Salary)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Department.Name)</td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h2 class="box-title">Employees<h4><a asp-page="Create">Create New</a></h4></h2>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered table-hover" id="employee-table">
+            <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Title</th>
+                  <th>Department</th>
+                  <!-- <th>Date Resolved</th> -->
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Employee) {
+              <tr name="employee" data-id="@item.Id">
+                    <td><a asp-page="./Details"
+                        asp-route-id="@item.Id">@Html.DisplayFor(v => item.Id)</a></td>
+                    <td>@Html.DisplayFor(v => item.FirstName)</td>
+                    <td>@Html.DisplayFor(v => item.LastName)</td>
+                    <td>@Html.DisplayFor(v => item.Title)</td>
+                    <td>@Html.DisplayFor(v => item.Department.Name)</td>
                 </tr>
             }
-        </tbody>
-        <tfoot>
-
-        </tfoot>
-    </table>
-
-    <div id="date-range">
-        Start: <input id="min" type="text" maxlength="8" size="8">
-        &nbsp;&nbsp;End: <input id="max" type="text" maxlength="8" size="8">
+            </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
     </div>
+    <!-- /.box -->
+  </div>
+  <!-- /.col -->
 </div>
+<!-- /.row -->
+@section scripts {
+<script>
+  var chartData = {
+    labels: [],
+      datasets: [
+        {
+          label               : "First",
+          fillColor           : 'rgba(210, 214, 222, 1)',
+          strokeColor         : 'rgba(210, 214, 222, 1)',
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : []
+        },
+        {
+          label               : "Second",
+          fillColor           : 'rgba(220, 224, 222, 1)',
+          strokeColor         : 'rgba(210, 214, 222, 1)',
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : []
+        },
+        {
+          label               : "Third",
+          fillColor           : 'rgba(230, 204, 222, 1)',
+          strokeColor         : 'rgba(210, 214, 222, 1)',
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : []
+        }
+      ]
+  }
+  function respondCanvas() {
+      var barChartCanvas = $('#barChart').get(0).getContext('2d')
+      var barChart = new Chart(barChartCanvas)
+      var barChartOptions = {
+        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero        : true,
+        //Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines      : true,
+        //String - Colour of the grid lines
+        scaleGridLineColor      : 'rgba(0,0,0,.05)',
+        //Number - Width of the grid lines
+        scaleGridLineWidth      : 1,
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines  : true,
+        //Boolean - If there is a stroke on each bar
+        barShowStroke           : true,
+        //Number - Pixel width of the bar stroke
+        barStrokeWidth          : 2,
+        //Number - Spacing between each of the X value sets
+        barValueSpacing         : 5,
+        //Number - Spacing between data sets within X values
+        barDatasetSpacing       : 1,
+        //String - A legend template
+        legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label%><%}%></li><%}%></ul>',
+        //Boolean - whether to make the chart responsive
+        responsive              : true,
+        maintainAspectRatio     : true
+      }
+      barChartOptions.datasetFill = true
+      barChart.Bar(chartData, barChartOptions)
+  }
 
-
-
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-            google.charts.load("current", { "packages": ["corechart"] });
-            google.charts.setOnLoadCallback(drawChart);
-            function drawChart() {
-                $.ajax({
-                    url: "/Employees?handler=PieChart",
-                    type: "GET",
-                    dataType: "json",
-                    success: function (json) {
-                        var data = google.visualization.arrayToDataTable(json);
-
-                        var options = {
-                            title: "Department Budget",
-                            is3D: true,
-                        };
-                        var chart = new google.visualization.PieChart(document.getElementById("piechart"));
-
-                        chart.draw(data, options);
-                    }
-                });
+  var GetChartData = function () {
+      $.ajax({
+          url: "/Attractions?handler=AttractionPopularityGraph",
+          method: 'GET',
+          dataType: 'json',
+          success: function (d) {
+            var labels = []
+            var data = []
+            $.each(d, function (index, value) {
+              labels.push(value.attraction_id);
+              data.push(value.visit_count);
+            });
+            $.each(labels, function (index, value) {
+              console.log(value);
+              console.log(data[index]);
+            });
+            chartData = {
+            labels: ["January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November",
+              "December"],
+              datasets: [
+                {
+                  label               : "First",
+                  fillColor           : "rgba(210, 214, 222, 1)",
+                  strokeColor         : "gba(210, 214, 222, 1)",
+                  pointColor          : "rgba(210, 214, 222, 1)",
+                  pointStrokeColor    : "#c1c7d1",
+                  pointHighlightFill  : "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data                : []
+                },
+                {
+                  label               : "Second",
+                  fillColor           : "rgba(220, 224, 232, 1)",
+                  strokeColor         : "rgba(210, 214, 222, 1)",
+                  pointColor          : "rgba(210, 214, 222, 1)",
+                  pointStrokeColor    : "#c1c7d1",
+                  pointHighlightFill  : "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data                : []
+                },
+                {
+                  label               : "Third",
+                  fillColor           : "rgba(230, 234, 242, 1)",
+                  strokeColor         : "rgba(210, 214, 222, 1)",
+                  pointColor          : "rgba(210, 214, 222, 1)",
+                  pointStrokeColor    : "#c1c7d1",
+                  pointHighlightFill  : "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data                : []
+                }
+              ]
             }
-
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var min = $('#min').datepicker("getDate");
-                    var max = $('#max').datepicker("getDate");
-                    var startDate = new Date(data[4]);
-
-                    if (min == null || max == null) {
-                        return true;
-                    }
-                    else {
-                        if (startDate >= min && startDate <= max) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            );
-
-            var employeesTable = $("#employees-table").DataTable({
-                "autoWidth": false,
-                "footerCallback": function (row, data, start, end, display) {
-                    var api = this.api(), data;
-
-                    var intVal = function (i) {
-                        if (typeof i === "string") {
-                            return i.replace(/[\$,]/g, "") * 1;
-                        }
-                        else {
-                            return i;
-                        }
-                    };
-
-                    var total = api.column(5, { search: "applied" }).data().reduce(function (a, b) {
-                        return intVal(a) + intVal(b)
-                    });
-
-                    var average = total / api.rows().count();
-
-                    $("#employees-table tfoot").html(
-                        "Total salaries: $" + total + "<br />" +
-                        "Average salaries: $" + average
-                    );
-                }
-            });
-
-            $('#min').datepicker({
-                yearRange: "1900:2018",
-                changeMonth: true,
-                changeYear: true
-            });
-            $('#max').datepicker({
-                yearRange: "1900:2018",
-                changeMonth: true,
-                changeYear: true
-            });
-
-            $('#min, #max').change(function () {
-                employeesTable.draw();
-            });
-        });
-    </script>
+            respondCanvas();
+          }
+      });
+  };
+  $(document).ready(function() {
+      respondCanvas();
+      GetChartData();
+  });
+  $("#employee-table").DataTable();
+</script>
 }

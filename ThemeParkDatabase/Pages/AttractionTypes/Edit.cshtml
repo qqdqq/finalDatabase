@@ -5,12 +5,16 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
 
-<h4>AttractionType</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+  <div class="col-md-12">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h3 class="box-title">Edit</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <!-- // content -->
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AttractionType.Id" />
@@ -23,10 +27,14 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+          <a asp-page="./Index">Back to List</a>
+      </div>
     </div>
+    <!-- /.box -->
+  </div>
+  <!-- ./col -->
 </div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
-
+<!-- /.row -->

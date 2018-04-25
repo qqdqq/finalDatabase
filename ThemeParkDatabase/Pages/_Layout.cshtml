@@ -1,311 +1,135 @@
-﻿<style>
-    body {
-        padding: 0 !important;
-    }
-
-    table {
-        font-size: 13px !important;
-    }
-
-    thead {
-        color: #fff;
-        background: linear-gradient(to right, #31bfab, #4ea2e0);
-        border-bottom: 9px solid rgba(255, 255, 255, 0.5);
-    }
-
-    tr:nth-child(even) {
-        background-color: #f7f7f7;
-    }
-
-    tr td:hover {
-        cursor: pointer;
-    }
-
-    .page-wrapper {
-        height: 100vh;
-    }
-
-    .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        height: 50px;
-        padding: 0 65px 0 0;
-        background: linear-gradient(to left, #31bfab, #4ea2e0) !important;
-        border-bottom: 3px solid rgba(255, 255, 255, 0.5) !important;
-    }
-
-    .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        height: 50px;
-        padding: 0 65px 0 0;
-        background: linear-gradient(to right, #3790d2, #1db19c);
-        border-bottom: 4px solid rgba(255, 255, 255, 0.5);
-    }
-
-        .topbar a, .topbar a:hover {
-            font-size: 2.0em;
-            text-decoration: none;
-            color: #fff;
-        }
-
-    .topbar-brand {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 250px;
-        height: 50px;
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    #logout-button {
-        font-size: 1.1em;
-        background: rgba(0, 0, 0, 0);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        transition: 0.08s;
-        box-shadow: none !important;
-    }
-
-        #logout-button:hover, #logout-button:focus, #logout-button:active {
-            background: rgba(255, 255, 255, 0.25);
-            outline: none;
-            box-shadow: none;
-            transition: 0.08s;
-        }
-
-    .body-wrapper {
-        display: flex;
-        align-content: stretch;
-        min-height: 100%;
-    }
-
-    .sidebar {
-        display: flex;
-        flex-direction: column;
-        min-width: 250px;
-        max-width: 250px;
-        border-right: 3px solid rgba(255, 255, 255, 0.55);
-        background: #283035;
-    }
-
-    .components-header {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        height: 63px;
-        padding: 0px 0 0 20px;
-        font-weight: 400;
-        font-size: 18px;
-        color: rgba(255, 255, 255, 0.85);
-        text-transform: uppercase;
-    }
-
-    .components a {
-        display: block;
-        padding: 12px 0 12px 27px;
-        font-size: 14px;
-        font-weight: 400;
-        color: rgba(255, 255, 255, 0.75);
-        transition: 0.1s;
-    }
-
-        .components a:hover {
-            text-decoration: none;
-            color: #fff;
-            background: #1db19c;
-            transition: 0.1s;
-        }
-
-    .content-wrapper {
-        display: flex;
-        align-items: stretch;
-        flex-direction: column;
-        width: 100%;
-        padding: 25px 40px 25px 40px;
-    }
-
-    .content-container {
-        /*display: flex;
-        align-items: center;*/
-        padding: 30px 50px 30px 50px;
-        margin-bottom: 15px;
-        /*margin: 30px 30px 0px 30px;*/
-        background: #fff;
-        /*border: 3px solid rgba(0, 0, 0, 0.1);*/
-        border-radius: 3px 3px;
-    }
-
-    li .glyphicon {
-        font-size: 14px;
-        padding: 0 15px 0 0;
-    }
-
-    .components-divider-wrapper {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        height: 2px;
-    }
-
-    .components-divider {
-        height: 100%;
-        width: 190px;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-</style>
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>@ViewData["Title"] - ThemeParkDatabase</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-paper.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css" />
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    <!-- default project stylesheets -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <link rel="stylesheet" href="~/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- Date Range Picker -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" href="~/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body>
-    <div class="page-wrapper">
-        <nav class="topbar navbar-inverse">
-            <div class="topbar-brand"><a asp-page="/Index">theme<b>Park</b></a></div>
-            @await Html.PartialAsync("_LoginPartial")
-            @*<button class="btn btn-primary" id="logout-button">Logout</button>*@
-        </nav>
 
+<body class="hold-transition skin-blue fixed">
+<div class="wrapper">
 
+  <!-- Main Header -->
+  <header class="main-header">
+    <!-- Logo -->
+    <a asp-page="/Index" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>TP</b>DB</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>ThemePark</b>DB</span>
+    </a>
 
-        <div class="body-wrapper">
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+      <div class="navbar-custom-menu">
+        @await Html.PartialAsync("_LoginPartial")
+      </div>
+    </nav>
+  </header>
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <ul class="sidebar-menu" data-widget="tree">
+        <!-- <li class="header">Contents</li> -->
+        <li><a asp-page="/Attractions/Index"><i class="fa fa-link"></i><span>Attractions</span></a></li>
+        <li><a asp-page="/Vendors/Index"><i class="fa fa-link"></i><span>Vendors</span></a></li>
+        <li><a asp-page="/Visitors/Index"><i class="fa fa-link"></i><span>Visitors</span></a></li>
+        <li><a asp-page="/Maintenance/Index"><i class="fa fa-link"></i><span>Maintenance</span></a></li>
+        <li><a asp-page="/Employees/Index"><i class="fa fa-link"></i><span>Employees</span></a></li>
+        <li><a asp-page="/Departments/Index"><i class="fa fa-link"></i><span>Departments</span></a></li>
+        <li><a asp-page="/ParkInfo/Index"><i class="fa fa-link"></i><span>Park Information</span></a></li>
+        <li><a asp-page="/Locations/Index"><i class="fa fa-link"></i><span>Park Locations</span></a></li>
+        <li><a asp-page="/AttractionTypes/Index"><i class="fa fa-link"></i><span>Attraction Types</span></a></li>
+        <li><a asp-page="/TicketTypes/Index"><i class="fa fa-link"></i><span>Ticket Types</span></a></li>
+        <li><a asp-page="/Reports/Index"><i class="fa fa-link"></i><span>Reports</span></a></li>
+      </ul>
+    </section>
+  </aside>
 
-            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-            {
-                <nav class="sidebar">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content container-fluid">
 
-                    <div class="components-header">Navigation</div>
-                    <div class="components-divider-wrapper">
-                        <div class="components-divider"></div>
-                    </div>
-                    <ul class="components list-unstyled">
+        @RenderBody()
 
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 
-                        @if (User.IsInRole("Employee"))
-                    {
-                    <li><a asp-page="/Attractions/Index"><i class="glyphicon glyphicon-piggy-bank"></i>Attractions</a></li>
-                    <li><a asp-page="/ParkInfo/Index"><i class="=glyphicon glyphicon-book"></i>ParkInformation</a></li>
-                    <li><a asp-page="/Vendors/Index"><i class="glyphicon glyphicon-pencil"></i>Vendors</a></li>
+  <!-- Main Footer -->
+  <!-- <footer class="main-footer"> -->
+  <!--   <1!-- Default to the left --1> -->
+  <!--   <a asp-page="/Index">ThemeParkDB</a> -->
+  <!-- </footer> -->
+</div>
+<!-- ./wrapper -->
 
-                    }
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
 
-                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-                         {
-        
+    <!-- REQUIRED JS SCRIPTS -->
+    <!-- jQuery 3 -->
+    <script src="~/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="~/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- momemt.js -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- DataTables -->
+    <script src="~/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <!-- ChartJS -->
+    <script src="~/chart.js/Chart.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/dist/js/adminlte.min.js"></script>
 
-                    <li><a asp-page="/Maintenance/Index"><i class="glyphicon glyphicon-apple"></i>Maintenance</a></li>
-                    <li><a asp-page="/Employees/Index"><i class="glyphicon glyphicon-book"></i>Employees</a></li>
-                    <li><a asp-page="/Reports/Index"><i class="glyphicon glyphicon-plane"></i>Reports</a></li>
-                    <li><a asp-page="/Visitors/Index"><i class="glyphicon glyphicon-star"></i>Visitors</a></li>
-
-                    <li><a asp-page="/Attractions/Index"><i class="glyphicon glyphicon-piggy-bank"></i>Attractions</a></li>
-                    <li><a asp-page="/ParkInfo/Index"><i class="=glyphicon glyphicon-book"></i>ParkInformation</a></li>
-                    <li><a asp-page="/Vendors/Index"><i class="glyphicon glyphicon-pencil"></i>Vendors</a></li>
-
-                        }
-
-
-
-
-
-
-                    </ul>
-                    <div class="components-divider-wrapper">
-                        <div class="components-divider"></div>
-                    </div>
-                </nav>
-
-            }
-
-            <div class="content-wrapper container">
-                @RenderBody()
-            </div>
-        </div>
-
-
-
-        @*</div>*@
-
-
-        <environment include="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-            <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
-            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-                    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-                    crossorigin="anonymous"></script>
-        </environment>
-        <environment exclude="Development">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery"
-                    crossorigin="anonymous"
-                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                    crossorigin="anonymous"
-                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-            </script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-        </environment>
-
-        @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
-
-@*<nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-page="/Index" class="navbar-brand">ThemeParkDatabase</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-page="/Maintenance/Index">Maintenance</a></li>
-                    <li><a asp-page="/Employees/Index">Employees</a></li>
-                    <li><a asp-page="/Reports/Index">Reports</a></li>
-                    <li><a asp-page="/Attractions/Index">Attractions</a></li>
-                    <li><a asp-page="/Visitors/Index">Visitors</a></li>
-                    <li><a asp-page="/Vendors/Index">Vendors</a></li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
-            </div>
-        </div>
-    </nav>
-    <div class="container body-content">
-
-        <hr />
-        <footer>
-            <p>&copy; 2017 - ThemeParkDatabase</p>
-        </footer>
-    </div>*@

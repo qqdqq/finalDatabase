@@ -5,55 +5,64 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
-<div class="content-container">
-    <h4>Visitor</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Visitor.FirstName" class="control-label"></label>
-                    <input asp-for="Visitor.FirstName" class="form-control" />
-                    <span asp-validation-for="Visitor.FirstName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Visitor.MiddleInitial" class="control-label"></label>
-                    <input asp-for="Visitor.MiddleInitial" class="form-control" />
-                    <span asp-validation-for="Visitor.MiddleInitial" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Visitor.LastName" class="control-label"></label>
-                    <input asp-for="Visitor.LastName" class="form-control" />
-                    <span asp-validation-for="Visitor.LastName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Visitor.DateOfBirth" class="control-label"></label>
-                    <input asp-for="Visitor.DateOfBirth" class="form-control" />
-                    <span asp-validation-for="Visitor.DateOfBirth" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Visitor.Email" class="control-label"></label>
-                    <input asp-for="Visitor.Email" class="form-control" />
-                    <span asp-validation-for="Visitor.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Visitor.PhoneNumber" class="control-label"></label>
-                    <input asp-for="Visitor.PhoneNumber" class="form-control" />
-                    <span asp-validation-for="Visitor.PhoneNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <div>
-        <a asp-page="Index">Back to List</a>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h3 class="box-title">Details</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <!-- // content -->
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Visitor.FirstName" class="control-label"></label>
+                <input asp-for="Visitor.FirstName" class="form-control" />
+                <span asp-validation-for="Visitor.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Visitor.MiddleInitial" class="control-label"></label>
+                <input asp-for="Visitor.MiddleInitial" class="form-control" />
+                <span asp-validation-for="Visitor.MiddleInitial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Visitor.LastName" class="control-label"></label>
+                <input asp-for="Visitor.LastName" class="form-control" />
+                <span asp-validation-for="Visitor.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Visitor.DateOfBirth" class="control-label"></label>
+                <input asp-for="Visitor.DateOfBirth" class="form-control" />
+                <span asp-validation-for="Visitor.DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Visitor.Email" class="control-label"></label>
+                <input asp-for="Visitor.Email" class="form-control" />
+                <span asp-validation-for="Visitor.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Visitor.PhoneNumber" class="control-label"></label>
+                <input asp-for="Visitor.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Visitor.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+          <a asp-page="./Edit" asp-route-id="@Model.Entity.Id">Edit</a>
+          <a asp-page="./Index">Back to List</a>
+      </div>
     </div>
-    </div>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+    <!-- /.box -->
+  </div>
+  <!-- ./col -->
+</div>
+<!-- /.row -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

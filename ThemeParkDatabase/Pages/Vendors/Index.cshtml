@@ -5,92 +5,163 @@
     ViewData["Title"] = "Vendors";
 }
 
+<div class="row">
+    <div class="col-xs-12">
+    <!-- BAR CHART -->
+    <div class="box box-success">
+        <div class="box-header with-border">
+        <h3 class="box-title">Vendor Sales</h3>
 
-<h3>Vendors</h3>
-
-<div class="content-container">
-    <div id="sales-goals-chart"></div>
-</div>
-
-<div class="content-container">
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table table-condensed table-hover table-responsive" id="vendors-table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Vendor[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vendor[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vendor[0].Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vendor[0].VendorType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Vendor) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VendorType.Name)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+        </div>
+        <div class="box-body">
+        <div class="chart">
+            <canvas id="barChart" style="height:230px"></canvas>
+        </div>
+        </div>
+        <!-- /.box-body -->
     </div>
+    <!-- /.box -->
 
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-            $("#vendors-table").DataTable();
+    </div>
+    <!-- /.col (RIGHT) -->
+</div>
+<!-- /.row -->
 
-            google.charts.load('current', { 'packages': ['corechart'] });
-            google.charts.setOnLoadCallback(drawChart);
-
-            function drawChart() {
-                $.ajax({
-                    url: "/Vendors?handler=SalesGraph",
-                    type: "GET",
-                    dataType: "json",
-                    success: function (json) {
-                        var data = google.visualization.arrayToDataTable(json);
-
-                        var options = {
-                            title: "Sales vs Sales Goals",
-                            curveType: "function",
-                            legend: { position: "bottom" }
-                        };
-
-                        var chart = new google.visualization.LineChart(document.getElementById("sales-goals-chart"));
-
-                        chart.draw(data, options);
-                    }
-                })
-
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h2 class="box-title">Vendors<h4><a asp-page="Create">Create New</a></h4></h2>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered table-hover" id="vendor-table">
+            <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Vendor</th>
+                  <th>Description</th>
+                  <th>Location</th>
+                  <th>Vendor Type</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Vendor) {
+              <tr name="vendor" data-id="@item.Id">
+                    <td><a asp-page="./Details"
+                        asp-route-id="@item.Id">@Html.DisplayFor(v => item.Id)</a></td>
+                    <td>@Html.DisplayFor(v => item.Name)</td>
+                    <td>@Html.DisplayFor(v => item.Description)</td>
+                    <td>@Html.DisplayFor(v => item.Location.Name)</td>
+                    <td>@Html.DisplayFor(v => item.VendorType.Name)</td>
+                </tr>
             }
-        });
-    </script>
+            </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+  <!-- /.col -->
+</div>
+<!-- /.row -->
+
+@section scripts {
+<script>
+  var chartData = {
+    labels: [],
+      datasets: [
+        {
+          label               : "Vendor Sales",
+          fillColor           : 'rgba(210, 214, 222, 1)',
+          strokeColor         : 'rgba(210, 214, 222, 1)',
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : []
+        }
+      ]
+  }
+  function respondCanvas() {
+      var barChartCanvas = $('#barChart').get(0).getContext('2d')
+      var barChart = new Chart(barChartCanvas)
+      var barChartOptions = {
+        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero        : true,
+        //Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines      : true,
+        //String - Colour of the grid lines
+        scaleGridLineColor      : 'rgba(0,0,0,.05)',
+        //Number - Width of the grid lines
+        scaleGridLineWidth      : 1,
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines  : true,
+        //Boolean - If there is a stroke on each bar
+        barShowStroke           : true,
+        //Number - Pixel width of the bar stroke
+        barStrokeWidth          : 2,
+        //Number - Spacing between each of the X value sets
+        barValueSpacing         : 5,
+        //Number - Spacing between data sets within X values
+        barDatasetSpacing       : 1,
+        //String - A legend template
+        legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label%><%}%></li><%}%></ul>',
+        //Boolean - whether to make the chart responsive
+        responsive              : true,
+        maintainAspectRatio     : true
+      }
+      barChartOptions.datasetFill = true
+      barChart.Bar(chartData, barChartOptions)
+  }
+
+  var GetChartData = function () {
+      $.ajax({
+          url: "/Maintenance?handler=MaintenanceCount",
+          method: 'GET',
+          dataType: 'json',
+          success: function (d) {
+            var labels = []
+            var data = []
+            $.each(d, function (index, value) {
+              labels.push(value.attraction_id);
+              data.push(value.maintenance_request_count);
+            });
+            $.each(labels, function (index, value) {
+              console.log(value);
+              console.log(data[index]);
+            });
+            chartData = {
+            labels: labels,
+              datasets: [
+                {
+                  label               : "Vendor Sales",
+                  fillColor           : "rgba(210, 214, 222, 1)",
+                  strokeColor         : "gba(210, 214, 222, 1)",
+                  pointColor          : "rgba(210, 214, 222, 1)",
+                  pointStrokeColor    : "#c1c7d1",
+                  pointHighlightFill  : "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data                : data
+                }
+              ]
+            }
+            respondCanvas();
+          }
+      });
+  };
+  $(document).ready(function() {
+      respondCanvas();
+      GetChartData();
+  });
+  $("#vendor-table").DataTable();
+</script>
 }

@@ -5,52 +5,62 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-<div class="content-container">
-    <div>
-        <h4>MaintenanceRequest</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.MaintenanceRequest.Description)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.MaintenanceRequest.Description)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.MaintenanceRequest.DateRequested)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.MaintenanceRequest.DateRequested)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.MaintenanceRequest.DateResolved)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.MaintenanceRequest.DateResolved)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.MaintenanceRequest.CurrentStatus)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.MaintenanceRequest.CurrentStatus)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.MaintenanceRequest.EstimatedCost)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.MaintenanceRequest.EstimatedCost)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.MaintenanceRequest.Attraction)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.MaintenanceRequest.Attraction.Description)
-            </dd>
-        </dl>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h3 class="box-title">Details</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+          <dl class="dl-horizontal">
+              <dt>
+                  @Html.DisplayNameFor(model => model.MaintenanceRequest.Description)
+              </dt>
+              <dd>
+                  @Html.DisplayFor(model => model.MaintenanceRequest.Description)
+              </dd>
+              <dt>
+                  @Html.DisplayNameFor(model => model.MaintenanceRequest.DateRequested)
+              </dt>
+              <dd>
+                  @Html.DisplayFor(model => model.MaintenanceRequest.DateRequested)
+              </dd>
+              <dt>
+                  @Html.DisplayNameFor(model => model.MaintenanceRequest.DateResolved)
+              </dt>
+              <dd>
+                  @Html.DisplayFor(model => model.MaintenanceRequest.DateResolved)
+              </dd>
+              <dt>
+                  @Html.DisplayNameFor(model => model.MaintenanceRequest.CurrentStatus)
+              </dt>
+              <dd>
+                  @Html.DisplayFor(model => model.MaintenanceRequest.CurrentStatus)
+              </dd>
+              <dt>
+                  @Html.DisplayNameFor(model => model.MaintenanceRequest.EstimatedCost)
+              </dt>
+              <dd>
+                  @Html.DisplayFor(model => model.MaintenanceRequest.EstimatedCost)
+              </dd>
+              <dt>
+                  @Html.DisplayNameFor(model => model.MaintenanceRequest.Attraction)
+              </dt>
+              <dd>
+                  @Html.DisplayFor(model => model.MaintenanceRequest.Attraction.Description)
+              </dd>
+          </dl>
+
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+          <a asp-page="./Edit" asp-route-id="@Model.MaintenanceRequest.Id">Edit</a> |
+          <a asp-page="./Index">Back to List</a>
+      </div>
     </div>
-    <div>
-        <a asp-page="./Edit" asp-route-id="@Model.MaintenanceRequest.Id">Edit</a> |
-        <a asp-page="./Index">Back to List</a>
-    </div>
-    </div>
+    <!-- /.box -->
+  </div>
+  <!-- ./col -->
+</div>
+<!-- /.row -->

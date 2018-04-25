@@ -5,43 +5,53 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
-<div class="content-container">
-    <h4>Attraction</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Attraction.Name" class="control-label"></label>
-                    <input asp-for="Attraction.Name" class="form-control" />
-                    <span asp-validation-for="Attraction.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Attraction.Description" class="control-label"></label>
-                    <input asp-for="Attraction.Description" class="form-control" />
-                    <span asp-validation-for="Attraction.Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Attraction.LocationId" class="control-label"></label>
-                    <select asp-for="Attraction.LocationId" class="form-control" asp-items="ViewBag.LocationId"></select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Attraction.AttractionTypeId" class="control-label"></label>
-                    <select asp-for="Attraction.AttractionTypeId" class="form-control" asp-items="ViewBag.AttractionTypeId"></select>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </form>
-        </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h3 class="box-title">Attraction - Create</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Attraction.Name" class="control-label"></label>
+                <input asp-for="Attraction.Name" class="form-control" />
+                <span asp-validation-for="Attraction.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Attraction.Description" class="control-label"></label>
+                <input asp-for="Attraction.Description" class="form-control" />
+                <span asp-validation-for="Attraction.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <!-- <label asp-for="Attraction.LocationId" class="control-label"></label> -->
+                <label class="control-label">Location</label>
+                <select asp-for="Attraction.LocationId" class ="form-control" asp-items="ViewBag.LocationId"></select>
+            </div>
+            <div class="form-group">
+                <!-- <label asp-for="Attraction.AttractionTypeId" class="control-label"></label> -->
+                <label class="control-label">Attraction Type</label>
+                <select asp-for="Attraction.AttractionTypeId" class ="form-control" asp-items="ViewBag.AttractionTypeId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+          <a asp-page="./Index">Back to List</a>
+      </div>
     </div>
+    <!-- /.box -->
+  </div>
+  <!-- ./col -->
+</div>
+<!-- /.row -->
 
-    <div>
-        <a asp-page="Index">Back to List</a>
-    </div>
-    </div>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -6,6 +6,7 @@ using ThemeParkDatabase.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 namespace ThemeParkDatabase.Pages
 {
     public class DI_BasePageModel : PageModel
@@ -13,7 +14,6 @@ namespace ThemeParkDatabase.Pages
         protected ApplicationDbContext Context { get; }
         protected IAuthorizationService AuthorizationService { get; }
         protected UserManager<ApplicationUser> UserManager { get; }
-
 
         public DI_BasePageModel(
             ApplicationDbContext context,
@@ -24,10 +24,5 @@ namespace ThemeParkDatabase.Pages
             UserManager = userManager;
             AuthorizationService = authorizationService;
         }
-
-        
-    
     }
 }
-
-

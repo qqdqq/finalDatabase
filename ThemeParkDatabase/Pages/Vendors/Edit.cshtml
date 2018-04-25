@@ -5,46 +5,49 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
-<div class="content-container">
-    <h4>Vendor</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Vendor.Id" />
-                <div class="form-group">
-                    <label asp-for="Vendor.Name" class="control-label"></label>
-                    <input asp-for="Vendor.Name" class="form-control" />
-                    <span asp-validation-for="Vendor.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Vendor.Description" class="control-label"></label>
-                    <input asp-for="Vendor.Description" class="form-control" />
-                    <span asp-validation-for="Vendor.Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Vendor.LocationId" class="control-label"></label>
-                    <select asp-for="Vendor.LocationId" class="form-control" asp-items="ViewBag.LocationId"></select>
-                    <span asp-validation-for="Vendor.LocationId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Vendor.VendorTypeId" class="control-label"></label>
-                    <select asp-for="Vendor.VendorTypeId" class="form-control" asp-items="ViewBag.VendorTypeId"></select>
-                    <span asp-validation-for="Vendor.VendorTypeId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </form>
-        </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h3 class="box-title">Vendor - Edit</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Vendor.Id" />
+            <div class="form-group">
+                <label asp-for="Vendor.Description" class="control-label"></label>
+                <input asp-for="Vendor.Description" class="form-control" />
+                <span asp-validation-for="Vendor.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <!-- <label asp-for="Vendor.LocationId" class="control-label"></label> -->
+                <label class="control-label">Vendor</label>
+                <select asp-for="Vendor.LocationId" class="form-control" asp-items="ViewBag.LocationId"></select>
+                <span asp-validation-for="Vendor.LocationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <!-- <label asp-for="Vendor.VendorTypeId" class="control-label"></label> -->
+                <label class="control-label">Vendor Type</label>
+                <select asp-for="Vendor.VendorTypeId" class="form-control" asp-items="ViewBag.VendorTypeId"></select>
+                <span asp-validation-for="Vendor.VendorTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+      <!-- /.box-body -->
+      <div class="box-footer">
+          <a asp-page="./Index">Back to List</a>
+      </div>
     </div>
+    <!-- /.box -->
+  </div>
+  <!-- ./col -->
+</div>
+<!-- /.row -->
 
-    <div>
-        <a asp-page="./Index">Back to List</a>
-    </div>
-    </div>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
