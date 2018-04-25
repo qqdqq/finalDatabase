@@ -11,50 +11,63 @@
 
 <div class="content-container">
 
-<div id="ticket-popularity-pie" style="width: 900px; position: relative; left: 55px; height: 300px; margin-left: auto; margin-right: auto;"></div>
+    <div id="ticket-popularity-pie" style="width: 900px; position: relative; left: 55px; height: 300px; margin-left: auto; margin-right: auto;"></div>
 
 </div>
 
 <div class="content-container">
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table table-responsive table-hover table-striped" id="visitors-table">
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>First Name</td>
-            <td>Last Name</td>
-            <td>Date of Birth</td>
-            <td>Email</td>
-            <td>Phone</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Visitor) {
-        <tr>
-            <td>@Html.DisplayFor(v => item.Id)</td>
-            <td>@Html.DisplayFor(v => item.FirstName)</td>
-            <td>@Html.DisplayFor(v => item.LastName)</td>
-            <td>@Html.DisplayFor(v => item.DateOfBirth)</td>
-            <td>@Html.DisplayFor(v => item.Email)</td>
-            <td>@Html.DisplayFor(v => item.PhoneNumber)</td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+    <table class="table table-responsive table-hover table-striped" id="visitors-table">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Date of Birth</td>
+                <td>Email</td>
+                <td>Phone</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Visitor)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(v => item.Id)</td>
+                    <td>@Html.DisplayFor(v => item.FirstName)</td>
+                    <td>@Html.DisplayFor(v => item.LastName)</td>
+                    <td>@Html.DisplayFor(v => item.DateOfBirth)</td>
+                    <td>@Html.DisplayFor(v => item.Email)</td>
+                    <td>@Html.DisplayFor(v => item.PhoneNumber)</td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-    </div>
+</div>
+
+<div class="content-container">
+<div class="col-md-6">
+    <h6>
+        Tickets Types
+
+    </h6>
+    <p>
+        <a asp-page="/Ticket Types/Index"> View The Type of Tickets</a>
+
+    </p>
+</div>
 </div>
 
 @section scripts
-{
+    {
     <script>
         $(document).ready(function () {
             google.charts.load("current", { packages: ["corechart"] });
