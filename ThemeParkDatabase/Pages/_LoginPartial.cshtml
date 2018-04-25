@@ -25,7 +25,9 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
+        @if(User.IsInRole("Admin") || User.IsInRole("Manager")){ 
         <li><a asp-page="/Account/Register">Register</a></li>
+        }
         <li><a asp-page="/Account/Login">Log in</a></li>
     </ul>
 }

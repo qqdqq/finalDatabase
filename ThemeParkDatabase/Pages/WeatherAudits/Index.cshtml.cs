@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ThemeParkDatabase.Models;
-using Microsoft.AspNetCore.Authorization;
 
-namespace ThemeParkDatabase.Pages.MaintenanceAudits
+namespace ThemeParkDatabase.Pages.WeatherAudits
 {
-    [Authorize(Roles = "Admin, Manager")]
     public class IndexModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;
@@ -20,11 +18,11 @@ namespace ThemeParkDatabase.Pages.MaintenanceAudits
             _context = context;
         }
 
-        public IList<MaintenanceAudit> MaintenanceAudit { get;set; }
+        public IList<WeatherAudit> WeatherAudit { get;set; }
 
         public async Task OnGetAsync()
         {
-            MaintenanceAudit = await _context.MaintenanceAudit.ToListAsync();
+            WeatherAudit = await _context.WeatherAudit.ToListAsync();
         }
     }
 }

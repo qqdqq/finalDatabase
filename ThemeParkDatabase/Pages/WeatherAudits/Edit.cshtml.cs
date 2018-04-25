@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,11 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThemeParkDatabase.Models;
-using Microsoft.AspNetCore.Authorization;
-namespace ThemeParkDatabase.Pages.Attractions
-{
-    [Authorize(Roles = "Admin, Manager")]
 
+namespace ThemeParkDatabase.Pages.WeatherAudits
+{
     public class EditModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;
@@ -22,7 +20,7 @@ namespace ThemeParkDatabase.Pages.Attractions
         }
 
         [BindProperty]
-        public Attraction Attraction { get; set; }
+        public WeatherAudit WeatherAudit { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -31,16 +29,12 @@ namespace ThemeParkDatabase.Pages.Attractions
                 return NotFound();
             }
 
-            Attraction = await _context.Attraction
-                .Include(a => a.AttractionType)
-                .Include(a => a.Location).SingleOrDefaultAsync(m => m.Id == id);
+            WeatherAudit = await _context.WeatherAudit.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (Attraction == null)
+            if (WeatherAudit == null)
             {
                 return NotFound();
             }
-           ViewData["AttractionTypeId"] = new SelectList(_context.AttractionType, "Id", "Name");
-           ViewData["LocationId"] = new SelectList(_context.Location, "Id", "Name");
             return Page();
         }
 
@@ -51,7 +45,7 @@ namespace ThemeParkDatabase.Pages.Attractions
                 return Page();
             }
 
-            _context.Attach(Attraction).State = EntityState.Modified;
+            _context.Attach(WeatherAudit).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +53,7 @@ namespace ThemeParkDatabase.Pages.Attractions
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AttractionExists(Attraction.Id))
+                if (!WeatherAuditExists(WeatherAudit.Id))
                 {
                     return NotFound();
                 }
@@ -72,9 +66,9 @@ namespace ThemeParkDatabase.Pages.Attractions
             return RedirectToPage("./Index");
         }
 
-        private bool AttractionExists(int id)
+        private bool WeatherAuditExists(int id)
         {
-            return _context.Attraction.Any(e => e.Id == id);
+            return _context.WeatherAudit.Any(e => e.Id == id);
         }
     }
 }

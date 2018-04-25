@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ThemeParkDatabase.Models;
-using Microsoft.AspNetCore.Authorization;
 
-namespace ThemeParkDatabase.Pages.ParkInfo
+namespace ThemeParkDatabase.Pages.WeatherAudits
 {
-    [Authorize(Roles = "Admin, Manager")]
     public class DeleteModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;
@@ -21,7 +19,7 @@ namespace ThemeParkDatabase.Pages.ParkInfo
         }
 
         [BindProperty]
-        public ParkInfomation ParkInfomation { get; set; }
+        public WeatherAudit WeatherAudit { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,9 +28,9 @@ namespace ThemeParkDatabase.Pages.ParkInfo
                 return NotFound();
             }
 
-            ParkInfomation = await _context.ParkInfomation.SingleOrDefaultAsync(m => m.Id == id);
+            WeatherAudit = await _context.WeatherAudit.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (ParkInfomation == null)
+            if (WeatherAudit == null)
             {
                 return NotFound();
             }
@@ -46,11 +44,11 @@ namespace ThemeParkDatabase.Pages.ParkInfo
                 return NotFound();
             }
 
-            ParkInfomation = await _context.ParkInfomation.FindAsync(id);
+            WeatherAudit = await _context.WeatherAudit.FindAsync(id);
 
-            if (ParkInfomation != null)
+            if (WeatherAudit != null)
             {
-                _context.ParkInfomation.Remove(ParkInfomation);
+                _context.WeatherAudit.Remove(WeatherAudit);
                 await _context.SaveChangesAsync();
             }
 

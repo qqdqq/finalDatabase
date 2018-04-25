@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ThemeParkDatabase.Models;
-using Microsoft.AspNetCore.Authorization;
 
-namespace ThemeParkDatabase.Pages.ParkInfo
+namespace ThemeParkDatabase.Pages.WeatherAudits
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +18,7 @@ namespace ThemeParkDatabase.Pages.ParkInfo
             _context = context;
         }
 
-        public ParkInfomation ParkInfomation { get; set; }
+        public WeatherAudit WeatherAudit { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,9 +27,9 @@ namespace ThemeParkDatabase.Pages.ParkInfo
                 return NotFound();
             }
 
-            ParkInfomation = await _context.ParkInfomation.SingleOrDefaultAsync(m => m.Id == id);
+            WeatherAudit = await _context.WeatherAudit.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (ParkInfomation == null)
+            if (WeatherAudit == null)
             {
                 return NotFound();
             }

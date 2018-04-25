@@ -201,11 +201,9 @@ namespace ThemeParkDatabase.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("EstimatedCost");
+                    b.Property<decimal>("EstimatedCost");
 
-                    b.Property<int>("MaintenanceAuditId");
-
-                    b.Property<DateTime>("UpdatedOn");
+                    b.Property<DateTime>("UpdatedOne");
 
                     b.HasKey("Id");
 
@@ -405,6 +403,24 @@ namespace ThemeParkDatabase.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Visitor");
+                });
+
+            modelBuilder.Entity("ThemeParkDatabase.Models.WeatherAudit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<double>("InchesPrecipitation");
+
+                    b.Property<bool>("Rainout");
+
+                    b.Property<double>("Temperature");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WeatherAudit");
                 });
 
             modelBuilder.Entity("ThemeParkDatabase.Models.Attraction", b =>

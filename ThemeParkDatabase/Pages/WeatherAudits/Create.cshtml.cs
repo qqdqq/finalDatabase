@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ThemeParkDatabase.Models;
-using Microsoft.AspNetCore.Authorization;
 
-namespace ThemeParkDatabase.Pages.ParkInfo
+namespace ThemeParkDatabase.Pages.WeatherAudits
 {
-    [Authorize(Roles = "Admin, Manager")]
     public class CreateModel : PageModel
     {
         private readonly ThemeParkDatabase.Models.ThemeParkDatabaseContext _context;
@@ -26,7 +24,7 @@ namespace ThemeParkDatabase.Pages.ParkInfo
         }
 
         [BindProperty]
-        public ParkInfomation ParkInfomation { get; set; }
+        public WeatherAudit WeatherAudit { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -35,7 +33,7 @@ namespace ThemeParkDatabase.Pages.ParkInfo
                 return Page();
             }
 
-            _context.ParkInfomation.Add(ParkInfomation);
+            _context.WeatherAudit.Add(WeatherAudit);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
